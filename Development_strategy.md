@@ -1,491 +1,1579 @@
-# UniQuest - Development Strategy (2-Week MVP)
+# UniQuest - Unity-First Development Strategy (2-Week MVP)
 
 ## 🎯 Project Overview
 
 **Goal:** Create a working 2D RPG in Unity with C# in 2 weeks  
 **Team:** 3-4 students with minimal Unity experience  
 **Scope:** MVP (Minimum Viable Product) - core gameplay only  
-**Platform:** Unity 2022.3 LTS (Long Term Support)
+**Platform:** Unity 2022.3 LTS (Long Term Support)  
+**Strategy:** Unity-first approach for visual progress and early integration testing
+
+## 🎨 Asset Integration Strategy
+
+### **When to Integrate Assets:**
+- **Day 0:** Import all assets and organize folders
+- **Day 1:** Use real player sprite immediately
+- **Day 2:** Use real background sprite
+- **Day 3:** Use real character and enemy sprites in battle
+- **Day 5:** Use different character sprites for team switching
+- **Day 6:** Use real item sprites for inventory
+- **Day 10:** Complete visual polish with all assets
+
+### **Why Early Asset Integration:**
+✅ **See how assets fit** in the game from Day 1  
+✅ **Guide design decisions** based on what you have  
+✅ **Catch asset issues early** (wrong size, format, etc.)  
+✅ **Motivate team** with visual progress  
+✅ **Reduce asset creation time** - use what you have  
+
+### **Asset Requirements:**
+- **Player sprites:** 3 different Warrior Girl types (Tank, DPS, Mage)
+- **Enemy sprites:** 3 different Troll types
+- **Item sprites:** Health Potion, Mana Potion
+- **Background sprites:** Map background, Battle background
+- **UI sprites:** Button sprites, UI elements
+- **Audio files:** Attack sounds, hit sounds, level up sound
 
 ---
 
-## 📅 Week-by-Week Breakdown
+## 🚀 Pre-Development Setup (Day 0)
 
-### **Week 1: Core Logic & Systems (No Unity UI)**
-**Goal:** Get all game logic working with console output
+### **Step 1: Install Unity on Mac**
 
-#### **Day 1-2: Foundation Classes**
-**Priority:** Core character and data classes
+#### **1.1 Download Unity Hub**
+1. **Go to:** [unity.com](https://unity.com)
+2. **Click:** "Get Unity" → "Personal" (free)
+3. **Download:** Unity Hub for Mac
+4. **Install:** Double-click the downloaded .dmg file
+5. **Drag Unity Hub** to Applications folder
 
-**Tasks:**
-1. **Create Character base class**
-   - Properties: name, level, maxHP, currentHP, maxMP, currentMP, attack, defense, speed, currentXP, isAlive
-   - Methods: TakeDamage(), Heal(), RestoreMP(), GainXP(), LevelUp(), IsDead()
-   - **Test:** Create character, damage it, verify HP decreases
+#### **1.2 Create Unity Account**
+1. **Open Unity Hub**
+2. **Click:** "Sign in" (top right)
+3. **Create account** with your email
+4. **Verify email** when prompted
 
-2. **Create PlayerCharacter and EnemyCharacter**
-   - PlayerCharacter: inherits from Character
-   - EnemyCharacter: inherits from Character + xpReward property
-   - **Test:** Create both types, verify inheritance works
+#### **1.3 Install Unity Editor**
+1. **In Unity Hub, click:** "Installs" tab
+2. **Click:** "Install Editor"
+3. **Select:** Unity 2022.3 LTS (Long Term Support)
+4. **Click:** "Install"
+5. **Wait:** 30-60 minutes for download and installation
 
-3. **Create Team class**
-   - Fixed array of 3 PlayerCharacter instances
-   - Methods: InitializeTeam(), GetActiveCharacter(), SwitchToNext(), GetAliveMembers(), IsTeamWiped()
-   - **Test:** Create team, damage one character, verify switching works
+#### **1.4 Install Visual Studio (for C# coding)**
+1. **Download:** Visual Studio for Mac from [visualstudio.microsoft.com](https://visualstudio.microsoft.com/vs/mac/)
+2. **Install:** Follow the installer
+3. **Select:** .NET development workload
+4. **Complete installation**
 
-**Deliverable:** All character classes working with console tests
+### **Step 2: Create Project**
+1. **Open Unity Hub**
+2. **Click:** "New project"
+3. **Select:** "2D Core" template
+4. **Project name:** "UniQuest"
+5. **Location:** Choose your folder
+6. **Click:** "Create project"
+7. **Wait:** Unity to open (2-3 minutes)
 
----
+### **Step 3: Configure Project Settings**
+1. **In Unity, go to:** Edit → Project Settings
+2. **Player → Resolution and Presentation:**
+   - **Default Screen Width:** 1920
+   - **Default Screen Height:** 1080
+   - **Fullscreen Mode:** Windowed
+3. **Player → Other Settings:**
+   - **Color Space:** Linear
+4. **Close Project Settings**
 
-#### **Day 3-4: Combat System**
-**Priority:** Battle logic without UI
+### **Step 4: Import Your Assets**
+1. **Create folder structure:**
+   - **Right-click in Project** → Create → Folder
+   - **Name:** "Sprites"
+   - **Create subfolders:** "Characters", "Enemies", "Items", "UI", "Backgrounds"
 
-**Tasks:**
-1. **Create BattleManager (MonoBehaviour)**
-   - Properties: currentPlayer, currentEnemy, playerTeam, state
-   - Methods: StartBattle(), PlayerAttack(), PlayerSuperAttack(), EnemyTurn(), EndBattle()
-   - **Damage formula:** `baseDamage = attacker.attack - (defender.defense / 2)`
-   - **Test:** Create battle, execute attacks, verify damage calculation
+2. **Import your sprites:**
+   - **Drag your sprite files** to appropriate folders
+   - **Select each sprite** in Project
+   - **In Inspector:**
+     - **Sprite Mode:** Single
+     - **Pixels Per Unit:** 100
+     - **Filter Mode:** Point (for pixel art) or Bilinear (for smooth art)
+     - **Click Apply**
 
-2. **Create EnemyDatabase**
-   - Static methods: CreateTroll1(), CreateTroll2(), CreateTroll3(), GetTrollByZone()
-   - **Test:** Create each troll, verify stats are correct
+3. **Import audio files:**
+   - **Create folder:** "Audio"
+   - **Drag audio files** to Audio folder
+   - **Select each audio file:**
+     - **Load Type:** Compressed in Memory
+     - **Compression Format:** Vorbis
 
-3. **Implement simple AI**
-   - Enemy randomly chooses normal attack (50%) or super attack (50% if has MP)
-   - **Test:** Run multiple battles, verify AI makes decisions
-
-**Deliverable:** Combat system working with Debug.Log output
-
----
-
-#### **Day 5: Inventory & Items**
-**Priority:** Item management system
-
-**Tasks:**
-1. **Create Item class**
-   - Properties: name, type, value
-   - Methods: Use() - abstract method
-
-2. **Create Inventory class**
-   - Dictionary<string, int> items
-   - Methods: AddItem(), UseHealthPotion(), UseManaPotion(), GetItemCount(), HasItem()
-   - **Test:** Add items, use potions, verify HP/MP changes
-
-3. **Create ItemDatabase**
-   - Constants: HEALTH_POTION_HEAL = 30, MANA_POTION_RESTORE = 20, SUPER_ATTACK_COST = 15
-
-4. **Integrate items into BattleManager**
-   - Add PlayerUseItem() method
-   - **Test:** Use items during battle, verify effects
-
-**Deliverable:** Inventory system working with console output
-
----
-
-#### **Day 6-7: Map & Battle Zones**
-**Priority:** Map movement and zone-based encounters
-
-**Tasks:**
-1. **Create MapController (MonoBehaviour)**
-   - Properties: playerTransform, moveSpeed
-   - Methods: MovePlayer(), Update() for input handling
-   - **Test:** Player moves with arrow keys
-
-2. **Create BattleZone (MonoBehaviour)**
-   - Properties: zoneIndex, zoneCollider
-   - Methods: OnTriggerEnter2D(), GetTrollForZone()
-   - **Test:** Walk into zone, trigger battle
-
-3. **Create GameManager (Singleton)**
-   - Properties: Instance, team, inventory, currentState
-   - Methods: GetTeam(), GetInventory(), TransitionToBattle(), TransitionToMap()
-   - **Test:** GameManager accessible from anywhere
-
-4. **Connect all systems**
-   - MapController → GameManager → BattleManager
-   - **Test:** Full flow: move → enter zone → battle → return to map
-
-**Deliverable:** Complete game loop working (move → battle → return)
+4. **Test asset import:**
+   - **Select a sprite** in Project
+   - **Preview should show** in Inspector
+   - **No import errors** in Console
 
 ---
 
-### **Week 2: Unity Integration & Polish**
-**Goal:** Add UI, scenes, and make it playable
+## 📅 Week 1: Unity Foundation + Visual Progress
 
-#### **Day 8-9: Battle UI**
-**Priority:** Battle interface and controls
+### **Day 1: Unity Basics + Player Movement**
 
-**Tasks:**
-1. **Create Battle scene**
-   - New scene: File → New Scene → 2D
-   - Add Canvas (UI → Canvas)
-   - **Test:** Scene loads correctly
+#### **Goal:** Get player moving on screen with arrow keys
 
-2. **Create BattleUI (MonoBehaviour)**
-   - UI Elements: HP bars, attack buttons, battle log text
-   - Methods: UpdateUI(), ShowBattleLog(), EnableButtons()
-   - **Test:** UI displays character stats
+#### **Step 1: Create Player Object with Real Assets**
+1. **Right-click in Hierarchy** → Create Empty
+2. **Name it:** "Player"
+3. **Add Component** → Sprite Renderer
+4. **In Sprite Renderer:**
+   - **Sprite:** Drag your player character sprite from Project
+   - **Color:** White (to show original colors)
+   - **Sorting Layer:** Default
+   - **Order in Layer:** 0
+5. **Test the sprite:**
+   - **Click Play** to see if sprite displays correctly
+   - **Adjust Pixels Per Unit** if sprite is too big/small
 
-3. **Connect UI to BattleManager**
-   - Button onClick events call BattleManager methods
-   - **Test:** Click buttons, execute battle actions
+#### **Step 2: Add Player Movement Script**
+1. **Right-click in Project** → Create → C# Script
+2. **Name it:** "PlayerController"
+3. **Double-click** to open in Visual Studio
+4. **Replace code with:**
 
-4. **Add battle animations (basic)**
-   - Character sprites shake when hit
-   - **Test:** Visual feedback during combat
+```csharp
+using UnityEngine;
 
-**Deliverable:** Playable battle with UI
-
----
-
-#### **Day 10-11: Map Scene & Integration**
-**Priority:** Map interface and scene transitions
-
-**Tasks:**
-1. **Create Map scene**
-   - Add background sprite or tilemap
-   - Add player sprite with movement
-   - **Test:** Player moves smoothly on map
-
-2. **Create MapUI (MonoBehaviour)**
-   - Display team HP/status
-   - **Test:** UI updates when team changes
-
-3. **Implement scene transitions**
-   - Map → Battle → Map
-   - Use SceneManager.LoadScene()
-   - **Test:** Seamless transitions between scenes
-
-4. **Add player sprite and movement**
-   - Import player character sprites
-   - **Test:** Visual movement on map
-
-**Deliverable:** Complete map-to-battle flow
-
----
-
-#### **Day 12-13: Balance & Polish**
-**Priority:** Game balance and visual polish
-
-**Tasks:**
-1. **Playtesting and balance**
-   - Test all 3 trolls, adjust stats if needed
-   - **Test:** Each troll provides appropriate challenge
-
-2. **Add visual polish**
-   - Character sprites for all 3 heroes and 3 trolls
-   - Item icons for potions
-   - **Test:** Game looks professional
-
-3. **Add sound effects (optional)**
-   - Attack sounds, hit sounds, level up sound
-   - **Test:** Audio feedback enhances gameplay
-
-4. **Add game over/victory screens**
-   - Game over when team wiped
-   - Victory screen after beating all trolls
-   - **Test:** Clear win/lose conditions
-
-**Deliverable:** Polished, balanced game
-
----
-
-#### **Day 14: Final Testing & Presentation**
-**Priority:** Bug fixes and demo preparation
-
-**Tasks:**
-1. **Full playthrough testing**
-   - Complete game from start to finish
-   - **Test:** No crashes, all features work
-
-2. **Bug fixes**
-   - Fix any critical issues found
-   - **Test:** Stable gameplay
-
-3. **Demo preparation**
-   - Create save file for demo
-   - Prepare presentation slides
-   - **Test:** Smooth demo flow
-
-4. **Documentation**
-   - Update README with controls
-   - **Test:** Others can run the game
-
-**Deliverable:** Presentation-ready game
-
----
-
-## 👥 Team Collaboration Strategy
-
-### **Recommended Team Roles (3 People)**
-
-#### **Person A: Core Systems Developer**
-**Responsibilities:**
-- Character, Team, Inventory classes
-- BattleManager logic
-- EnemyDatabase
-- Unit tests for all logic classes
-
-**Git Workflow:**
-- Create feature branch: `feature/core-systems`
-- Work on POCO classes first (no Unity dependencies)
-- Commit frequently with descriptive messages
-- Create pull request when feature complete
-
-**Time Allocation:**
-- Day 1-2: Character classes
-- Day 3-4: BattleManager
-- Day 5: Inventory integration
-- Day 6-7: Testing and integration
-
----
-
-#### **Person B: Unity Integration Developer**
-**Responsibilities:**
-- MapController, BattleZone
-- GameManager singleton
-- Scene management
-- Unity-specific MonoBehaviour classes
-
-**Git Workflow:**
-- Create feature branch: `feature/unity-integration`
-- Focus on MonoBehaviour classes
-- Test in Unity frequently
-- Coordinate with Person A for integration
-
-**Time Allocation:**
-- Day 1-2: Study Unity basics
-- Day 3-4: MapController and movement
-- Day 5-6: BattleZone and GameManager
-- Day 7: Integration testing
-
----
-
-#### **Person C: UI & Polish Developer**
-**Responsibilities:**
-- BattleUI, MapUI
-- Scene setup and transitions
-- Visual assets and polish
-- Final testing and presentation
-
-**Git Workflow:**
-- Create feature branch: `feature/ui-polish`
-- Start with basic UI, add polish later
-- Coordinate with others for UI integration
-- Handle final presentation preparation
-
-**Time Allocation:**
-- Day 1-5: Study Unity UI system
-- Day 6-9: Battle UI implementation
-- Day 10-11: Map UI and scenes
-- Day 12-14: Polish and presentation
-
----
-
-### **Alternative: Parallel Development Strategy**
-
-#### **Week 1: Parallel Development**
-- **Person A:** Focus on POCO classes (Character, Team, Inventory)
-- **Person B:** Focus on MonoBehaviour classes (BattleManager, MapController)
-- **Person C:** Study Unity, prepare assets, create basic scenes
-
-#### **Week 2: Integration & Polish**
-- **Person A:** Help with integration and testing
-- **Person B:** Focus on scene transitions and GameManager
-- **Person C:** Lead UI implementation and polish
-
----
-
-## 🔧 Git Workflow & Collaboration
-
-### **Repository Setup**
-```bash
-# Initialize repository
-git init
-git remote add origin [your-github-repo-url]
-
-# Create main branch
-git checkout -b main
-git push -u origin main
+public class PlayerController : MonoBehaviour
+{
+    public float moveSpeed = 5f;
+    
+    void Update()
+    {
+        // Get input
+        float horizontal = Input.GetAxis("Horizontal");
+        float vertical = Input.GetAxis("Vertical");
+        
+        // Create movement vector
+        Vector2 movement = new Vector2(horizontal, vertical);
+        
+        // Move player
+        transform.Translate(movement * moveSpeed * Time.deltaTime);
+    }
+}
 ```
 
-### **Branch Strategy**
-```bash
-# Main branches
-main                    # Production-ready code
-develop                 # Integration branch
+5. **Save file** (Cmd + S)
+6. **Return to Unity**
 
-# Feature branches (each person)
-feature/core-systems    # Person A
-feature/unity-integration # Person B  
-feature/ui-polish       # Person C
+#### **Step 3: Attach Script to Player**
+1. **Select Player object** in Hierarchy
+2. **In Inspector, click:** "Add Component"
+3. **Type:** "PlayerController"
+4. **Click on the script**
+5. **Set Move Speed:** 5
 
-# Hotfix branches (if needed)
-hotfix/critical-bug
+#### **Step 4: Test Movement**
+1. **Click Play button** (▶️) in Unity
+2. **Use arrow keys** to move player
+3. **Click Play again** to stop
+
+#### **Step 5: Add Camera Follow (Optional)**
+1. **Select Main Camera**
+2. **Add Component** → Script
+3. **Create new script:** "CameraFollow"
+4. **Code:**
+
+```csharp
+using UnityEngine;
+
+public class CameraFollow : MonoBehaviour
+{
+    public Transform target;
+    public float smoothSpeed = 0.125f;
+    public Vector3 offset;
+    
+    void LateUpdate()
+    {
+        if (target != null)
+        {
+            Vector3 desiredPosition = target.position + offset;
+            Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed);
+            transform.position = smoothedPosition;
+        }
+    }
+}
 ```
 
-### **Daily Workflow**
-```bash
-# Morning: Pull latest changes
-git checkout develop
-git pull origin develop
+5. **Set Target:** Drag Player to Target field
+6. **Set Offset:** (0, 0, -10)
 
-# Work on your feature
-git checkout feature/your-feature
-git merge develop  # Get latest changes
-
-# Work on your tasks...
-# Commit frequently
-git add .
-git commit -m "Add Character.TakeDamage() method"
-
-# End of day: Push your work
-git push origin feature/your-feature
-```
-
-### **Integration Workflow**
-```bash
-# When feature is complete
-git checkout develop
-git merge feature/your-feature
-git push origin develop
-
-# Create pull request for review
-# After approval, merge to main
-```
-
-### **Conflict Resolution**
-```bash
-# If conflicts occur
-git checkout develop
-git pull origin develop
-git checkout feature/your-feature
-git merge develop
-# Resolve conflicts in Unity/VS Code
-git add .
-git commit -m "Resolve merge conflicts"
-```
+#### **Day 1 Success Criteria:**
+- [ ] Player moves with arrow keys
+- [ ] Camera follows player (optional)
+- [ ] No errors in Console
 
 ---
 
-## 🎮 Unity Hub & Project Management
+### **Day 2: Map Scene + Battle Zones**
 
-### **Unity Hub Setup**
-1. **Install Unity Hub**
-   - Download from unity.com
-   - Create Unity ID account
-   - Install Unity 2022.3 LTS
+#### **Goal:** Create map with battle zones that trigger battles
 
-2. **Project Setup**
-   - Create new 2D project: "UniQuest"
-   - Set up version control (Git)
-   - Configure project settings
+#### **Step 1: Create Map Background with Real Assets**
+1. **Use your background sprite:**
+   - **Drag your map background sprite** from Project to Scene
+   - **Position:** (0, 0, 0)
+   - **Name:** "MapBackground"
+2. **Adjust background size:**
+   - **Select MapBackground** in Hierarchy
+   - **In Transform:**
+     - **Scale:** Adjust X and Y to fit screen (try 1, 1, 1 first)
+     - **Position:** (0, 0, 0)
+3. **Test background:**
+   - **Click Play** to see if background displays correctly
+   - **Adjust scale** if background is too big/small
 
-### **Project Structure**
+#### **Step 2: Create Battle Zones**
+1. **Right-click in Hierarchy** → Create Empty
+2. **Name it:** "BattleZone1"
+3. **Position:** (5, 0, 0)
+4. **Add Component** → Box Collider 2D
+5. **Check:** "Is Trigger"
+6. **Size:** (3, 3, 1)
+7. **Add visual indicator:**
+   - **Add Component** → Sprite Renderer
+   - **Sprite:** Create → 2D → Sprites → Square
+   - **Color:** Red with 50% transparency
+   - **Size:** 3x3
+
+#### **Step 3: Create Battle Zone Script**
+1. **Create new script:** "BattleZone"
+2. **Code:**
+
+```csharp
+using UnityEngine;
+using UnityEngine.SceneManagement;
+
+public class BattleZone : MonoBehaviour
+{
+    public int zoneIndex = 0;
+    
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            Debug.Log($"Player entered zone {zoneIndex}!");
+            // For now, just log - we'll add battle scene later
+        }
+    }
+}
 ```
-UniQuest/
-├── Assets/
-│   ├── Scripts/
-│   │   ├── Characters/     # Character, PlayerCharacter, EnemyCharacter
-│   │   ├── Combat/         # BattleManager, EnemyDatabase
-│   │   ├── Inventory/      # Inventory, Item, ItemDatabase
-│   │   ├── Map/           # MapController, BattleZone
-│   │   ├── Managers/      # GameManager
-│   │   └── UI/            # BattleUI, MapUI
-│   ├── Sprites/
-│   │   ├── Characters/    # Player and enemy sprites
-│   │   ├── Items/         # Potion icons
-│   │   └── UI/            # UI elements
-│   ├── Scenes/
-│   │   ├── Map.unity
-│   │   └── Battle.unity
-│   └── Prefabs/
-│       ├── BattleZone.prefab
-│       └── Player.prefab
-├── Packages/
-├── ProjectSettings/
-└── README.md
+
+3. **Attach to BattleZone1**
+4. **Set Zone Index:** 0
+
+#### **Step 4: Tag Player Object**
+1. **Select Player object**
+2. **In Inspector, find Tag dropdown**
+3. **Select:** "Player" (or create new tag if needed)
+
+#### **Step 5: Create More Battle Zones**
+1. **Duplicate BattleZone1** (Cmd + D)
+2. **Name:** "BattleZone2"
+3. **Position:** (10, 0, 0)
+4. **Color:** Orange
+5. **Zone Index:** 1
+6. **Repeat for BattleZone3:**
+   - **Position:** (15, 0, 0)
+   - **Color:** Dark Red
+   - **Zone Index:** 2
+
+#### **Day 2 Success Criteria:**
+- [ ] Map has background
+- [ ] 3 battle zones visible
+- [ ] Console shows messages when entering zones
+- [ ] Player can move around map
+
+---
+
+### **Day 3: Battle Scene + Basic UI**
+
+#### **Goal:** Create battle scene with basic combat UI
+
+#### **Step 1: Create Battle Scene**
+1. **File** → New Scene
+2. **File** → Save Scene As
+3. **Name:** "Battle"
+4. **Save in:** Assets/Scenes/
+
+#### **Step 2: Set Up Battle Scene with Real Assets**
+1. **Delete default objects** (Main Camera, Directional Light)
+2. **Create Canvas:**
+   - **Right-click in Hierarchy** → UI → Canvas
+   - **Name:** "BattleCanvas"
+3. **Add character displays:**
+   - **Create empty GameObject** → Name: "PlayerDisplay"
+   - **Position:** Left side of screen
+   - **Add Component** → Sprite Renderer
+   - **Sprite:** Drag your player character sprite
+   - **Scale:** Adjust to fit screen (try 2, 2, 1)
+4. **Add enemy display:**
+   - **Create empty GameObject** → Name: "EnemyDisplay"
+   - **Position:** Right side of screen
+   - **Add Component** → Sprite Renderer
+   - **Sprite:** Drag your enemy sprite (Troll1)
+   - **Scale:** Adjust to fit screen
+
+#### **Step 3: Create HP Bars**
+1. **Right-click Canvas** → UI → Slider
+2. **Name:** "PlayerHPBar"
+3. **Position:** Top left
+4. **Add Text:**
+   - **Right-click PlayerHPBar** → UI → Text
+   - **Name:** "PlayerHPText"
+   - **Text:** "Player HP: 100/100"
+   - **Position:** Above the slider
+
+5. **Repeat for Enemy:**
+   - **Name:** "EnemyHPBar"
+   - **Position:** Top right
+   - **Add Text:** "EnemyHPText"
+
+#### **Step 4: Create Action Buttons**
+1. **Right-click Canvas** → UI → Button
+2. **Name:** "AttackButton"
+3. **Position:** Bottom left
+4. **Text:** "Attack"
+
+5. **Create more buttons:**
+   - **SuperAttackButton** - "Super Attack"
+   - **ItemButton** - "Use Item"
+   - **SwitchButton** - "Switch Character"
+
+#### **Step 5: Create Battle Log**
+1. **Right-click Canvas** → UI → Text
+2. **Name:** "BattleLog"
+3. **Position:** Bottom center
+4. **Text:** "Battle started!"
+5. **Font Size:** 14
+
+#### **Step 6: Create Battle Manager Script**
+1. **Create new script:** "BattleManager"
+2. **Code:**
+
+```csharp
+using UnityEngine;
+using UnityEngine.UI;
+
+public class BattleManager : MonoBehaviour
+{
+    [Header("UI Elements")]
+    public Slider playerHPBar;
+    public Slider enemyHPBar;
+    public Text playerHPText;
+    public Text enemyHPText;
+    public Text battleLog;
+    public Button attackButton;
+    public Button superAttackButton;
+    public Button itemButton;
+    public Button switchButton;
+    
+    [Header("Character Stats")]
+    public int playerHP = 100;
+    public int enemyHP = 80;
+    public int playerMP = 30;
+    public int enemyMP = 20;
+    
+    void Start()
+    {
+        // Set up button listeners
+        attackButton.onClick.AddListener(OnAttackClicked);
+        superAttackButton.onClick.AddListener(OnSuperAttackClicked);
+        itemButton.onClick.AddListener(OnItemClicked);
+        switchButton.onClick.AddListener(OnSwitchClicked);
+        
+        // Initialize UI
+        UpdateUI();
+        ShowBattleLog("Battle started!");
+    }
+    
+    void UpdateUI()
+    {
+        // Update HP bars
+        playerHPBar.value = (float)playerHP / 100f;
+        enemyHPBar.value = (float)enemyHP / 80f;
+        
+        // Update HP text
+        playerHPText.text = $"Player HP: {playerHP}/100";
+        enemyHPText.text = $"Enemy HP: {enemyHP}/80";
+    }
+    
+    void ShowBattleLog(string message)
+    {
+        battleLog.text = message;
+    }
+    
+    void OnAttackClicked()
+    {
+        int damage = Random.Range(15, 25);
+        enemyHP -= damage;
+        ShowBattleLog($"Player attacked for {damage} damage!");
+        UpdateUI();
+        
+        if (enemyHP <= 0)
+        {
+            ShowBattleLog("Victory!");
+            return;
+        }
+        
+        // Enemy turn
+        EnemyTurn();
+    }
+    
+    void OnSuperAttackClicked()
+    {
+        if (playerMP < 15)
+        {
+            ShowBattleLog("Not enough MP!");
+            return;
+        }
+        
+        playerMP -= 15;
+        int damage = Random.Range(25, 35);
+        enemyHP -= damage;
+        ShowBattleLog($"Player used Super Attack for {damage} damage!");
+        UpdateUI();
+        
+        if (enemyHP <= 0)
+        {
+            ShowBattleLog("Victory!");
+            return;
+        }
+        
+        EnemyTurn();
+    }
+    
+    void OnItemClicked()
+    {
+        ShowBattleLog("Used Health Potion! Healed 30 HP.");
+        playerHP = Mathf.Min(100, playerHP + 30);
+        UpdateUI();
+        EnemyTurn();
+    }
+    
+    void OnSwitchClicked()
+    {
+        ShowBattleLog("Switched to next character!");
+        EnemyTurn();
+    }
+    
+    void EnemyTurn()
+    {
+        int damage = Random.Range(10, 20);
+        playerHP -= damage;
+        ShowBattleLog($"Enemy attacked for {damage} damage!");
+        UpdateUI();
+        
+        if (playerHP <= 0)
+        {
+            ShowBattleLog("Game Over!");
+        }
+    }
+}
 ```
 
-### **Unity Collaboration Settings**
-1. **Version Control Settings**
-   - Edit → Project Settings → Editor
-   - Version Control Mode: Visible Meta Files
-   - Asset Serialization Mode: Force Text
+#### **Step 7: Attach Script and Connect UI**
+1. **Create empty GameObject** → Name: "BattleManager"
+2. **Add Component** → BattleManager
+3. **Drag UI elements** to script fields:
+   - **Player HP Bar:** Drag PlayerHPBar
+   - **Enemy HP Bar:** Drag EnemyHPBar
+   - **Player HP Text:** Drag PlayerHPText
+   - **Enemy HP Text:** Drag EnemyHPText
+   - **Battle Log:** Drag BattleLog
+   - **Attack Button:** Drag AttackButton
+   - **Super Attack Button:** Drag SuperAttackButton
+   - **Item Button:** Drag ItemButton
+   - **Switch Button:** Drag SwitchButton
 
-2. **Git Ignore File**
+#### **Day 3 Success Criteria:**
+- [ ] Battle scene loads
+- [ ] All buttons work
+- [ ] HP bars update
+- [ ] Battle log shows messages
+- [ ] Basic combat works
+
+---
+
+### **Day 4: Scene Transitions + Game Manager**
+
+#### **Goal:** Connect map and battle scenes with transitions
+
+#### **Step 1: Create Game Manager**
+1. **Create new script:** "GameManager"
+2. **Code:**
+
+```csharp
+using UnityEngine;
+using UnityEngine.SceneManagement;
+
+public class GameManager : MonoBehaviour
+{
+    public static GameManager Instance;
+    
+    void Awake()
+    {
+        // Singleton pattern
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+    
+    public void TransitionToBattle(int zoneIndex)
+    {
+        Debug.Log($"Transitioning to battle in zone {zoneIndex}");
+        SceneManager.LoadScene("Battle");
+    }
+    
+    public void TransitionToMap()
+    {
+        Debug.Log("Returning to map");
+        SceneManager.LoadScene("Map");
+    }
+}
+```
+
+3. **Create empty GameObject** → Name: "GameManager"
+4. **Add Component** → GameManager
+
+#### **Step 2: Update Battle Zone Script**
+1. **Open BattleZone script**
+2. **Update code:**
+
+```csharp
+using UnityEngine;
+
+public class BattleZone : MonoBehaviour
+{
+    public int zoneIndex = 0;
+    
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            Debug.Log($"Player entered zone {zoneIndex}!");
+            GameManager.Instance.TransitionToBattle(zoneIndex);
+        }
+    }
+}
+```
+
+#### **Step 3: Add Return to Map Button**
+1. **In Battle scene, add button:**
+   - **Right-click Canvas** → UI → Button
+   - **Name:** "ReturnToMapButton"
+   - **Text:** "Return to Map"
+   - **Position:** Top right
+
+2. **Update BattleManager script:**
+   - **Add field:** `public Button returnToMapButton;`
+   - **In Start():** `returnToMapButton.onClick.AddListener(OnReturnToMapClicked);`
+   - **Add method:**
+
+```csharp
+void OnReturnToMapClicked()
+{
+    GameManager.Instance.TransitionToMap();
+}
+```
+
+#### **Step 4: Add Scenes to Build Settings**
+1. **File** → Build Settings
+2. **Add Open Scenes:**
+   - **Click "Add Open Scenes"** for Map scene
+   - **Click "Add Open Scenes"** for Battle scene
+3. **Close Build Settings**
+
+#### **Day 4 Success Criteria:**
+- [ ] Walk into zone → Battle scene loads
+- [ ] Click "Return to Map" → Map scene loads
+- [ ] GameManager persists between scenes
+- [ ] No errors in Console
+
+---
+
+### **Day 5: Character System + Team Management**
+
+#### **Goal:** Create character system with 3 team members
+
+#### **Step 1: Create Character Script**
+1. **Create new script:** "Character"
+2. **Code:**
+
+```csharp
+using UnityEngine;
+
+public class Character : MonoBehaviour
+{
+    [Header("Character Stats")]
+    public string characterName;
+    public int level = 1;
+    public int maxHP = 100;
+    public int currentHP;
+    public int maxMP = 30;
+    public int currentMP;
+    public int attack = 20;
+    public int defense = 10;
+    public int currentXP = 0;
+    public bool isAlive = true;
+    
+    void Start()
+    {
+        currentHP = maxHP;
+        currentMP = maxMP;
+    }
+    
+    public void TakeDamage(int amount)
+    {
+        currentHP -= amount;
+        if (currentHP <= 0)
+        {
+            currentHP = 0;
+            isAlive = false;
+        }
+    }
+    
+    public void Heal(int amount)
+    {
+        currentHP += amount;
+        if (currentHP > maxHP)
+            currentHP = maxHP;
+    }
+    
+    public void RestoreMP(int amount)
+    {
+        currentMP += amount;
+        if (currentMP > maxMP)
+            currentMP = maxMP;
+    }
+    
+    public bool IsDead()
+    {
+        return !isAlive;
+    }
+}
+```
+
+#### **Step 2: Create Team Manager**
+1. **Create new script:** "TeamManager"
+2. **Code:**
+
+```csharp
+using UnityEngine;
+
+public class TeamManager : MonoBehaviour
+{
+    [Header("Team Members")]
+    public Character[] teamMembers = new Character[3];
+    public int activeIndex = 0;
+    
+    void Start()
+    {
+        // Initialize team members
+        InitializeTeam();
+    }
+    
+    void InitializeTeam()
+    {
+        // Create 3 different warrior girls
+        for (int i = 0; i < 3; i++)
+        {
+            GameObject member = new GameObject($"WarriorGirl{i + 1}");
+            teamMembers[i] = member.AddComponent<Character>();
+            
+            // Set different stats for each
+            switch (i)
+            {
+                case 0: // Tank
+                    teamMembers[i].characterName = "Warrior Girl (Tank)";
+                    teamMembers[i].maxHP = 120;
+                    teamMembers[i].currentHP = 120;
+                    teamMembers[i].attack = 15;
+                    teamMembers[i].defense = 15;
+                    break;
+                case 1: // DPS
+                    teamMembers[i].characterName = "Warrior Girl (DPS)";
+                    teamMembers[i].maxHP = 80;
+                    teamMembers[i].currentHP = 80;
+                    teamMembers[i].attack = 25;
+                    teamMembers[i].defense = 8;
+                    break;
+                case 2: // Mage
+                    teamMembers[i].characterName = "Warrior Girl (Mage)";
+                    teamMembers[i].maxHP = 70;
+                    teamMembers[i].currentHP = 70;
+                    teamMembers[i].attack = 22;
+                    teamMembers[i].defense = 5;
+                    break;
+            }
+        }
+    }
+    
+    public Character GetActiveCharacter()
+    {
+        return teamMembers[activeIndex];
+    }
+    
+    public Character SwitchToNext()
+    {
+        activeIndex = (activeIndex + 1) % 3;
+        return GetActiveCharacter();
+    }
+    
+    public bool IsTeamWiped()
+    {
+        foreach (Character member in teamMembers)
+        {
+            if (!member.IsDead())
+                return false;
+        }
+        return true;
+    }
+}
+```
+
+#### **Step 3: Update Battle Manager**
+1. **Open BattleManager script**
+2. **Add fields:**
+
+```csharp
+[Header("Team Management")]
+public TeamManager teamManager;
+public Character currentPlayer;
+public Character currentEnemy;
+```
+
+3. **Update Start() method:**
+
+```csharp
+void Start()
+{
+    // Set up button listeners
+    attackButton.onClick.AddListener(OnAttackClicked);
+    superAttackButton.onClick.AddListener(OnSuperAttackClicked);
+    itemButton.onClick.AddListener(OnItemClicked);
+    switchButton.onClick.AddListener(OnSwitchClicked);
+    
+    // Initialize characters
+    currentPlayer = teamManager.GetActiveCharacter();
+    currentEnemy = CreateEnemy();
+    
+    // Initialize UI
+    UpdateUI();
+    ShowBattleLog("Battle started!");
+}
+```
+
+4. **Add CreateEnemy() method:**
+
+```csharp
+Character CreateEnemy()
+{
+    GameObject enemy = new GameObject("Enemy");
+    Character enemyChar = enemy.AddComponent<Character>();
+    enemyChar.characterName = "Troll";
+    enemyChar.maxHP = 80;
+    enemyChar.currentHP = 80;
+    enemyChar.attack = 18;
+    enemyChar.defense = 8;
+    return enemyChar;
+}
+```
+
+#### **Step 4: Update UI to Show Character Names**
+1. **Update UpdateUI() method:**
+
+```csharp
+void UpdateUI()
+{
+    // Update HP bars
+    playerHPBar.value = (float)currentPlayer.currentHP / currentPlayer.maxHP;
+    enemyHPBar.value = (float)currentEnemy.currentHP / currentEnemy.maxHP;
+    
+    // Update HP text
+    playerHPText.text = $"{currentPlayer.characterName}: {currentPlayer.currentHP}/{currentPlayer.maxHP}";
+    enemyHPText.text = $"{currentEnemy.characterName}: {currentEnemy.currentHP}/{currentEnemy.maxHP}";
+}
+```
+
+#### **Step 5: Add Character Sprite Switching**
+1. **Update Character script to include sprite:**
+   - **Add field:** `public Sprite characterSprite;`
+   - **In Start() method:** `GetComponent<SpriteRenderer>().sprite = characterSprite;`
+
+2. **Update TeamManager to set different sprites:**
+   - **In InitializeTeam() method, add sprite assignment:**
+   ```csharp
+   // Set different sprites for each character type
+   switch (i)
+   {
+       case 0: // Tank
+           teamMembers[i].characterSprite = Resources.Load<Sprite>("Sprites/Characters/WarriorGirl_Tank");
+           break;
+       case 1: // DPS
+           teamMembers[i].characterSprite = Resources.Load<Sprite>("Sprites/Characters/WarriorGirl_DPS");
+           break;
+       case 2: // Mage
+           teamMembers[i].characterSprite = Resources.Load<Sprite>("Sprites/Characters/WarriorGirl_Mage");
+           break;
+   }
    ```
-   [Ll]ibrary/
-   [Tt]emp/
-   [Oo]bj/
-   [Bb]uild/
-   [Bb]uilds/
-   [Ll]ogs/
-   [Uu]ser[Ss]ettings/
-   *.tmp
-   *.user
-   *.userprefs
-   *.pidb
-   *.booproj
-   *.svd
-   *.pdb
-   *.mdb
-   *.opendb
-   *.VC.db
-   ```
+
+3. **Update BattleManager to show active character sprite:**
+   - **Add method:** `void UpdateCharacterDisplay()`
+   - **Call in UpdateUI():** `UpdateCharacterDisplay();`
+
+#### **Day 5 Success Criteria:**
+- [ ] 3 team members created with different stats
+- [ ] Character switching works
+- [ ] UI shows character names and stats
+- [ ] Team management system works
 
 ---
 
-## 📋 Daily Standup Template
+### **Day 6: Inventory System + Items**
 
-### **Daily Questions (15 minutes)**
-1. **What did you complete yesterday?**
-2. **What are you working on today?**
-3. **Are there any blockers or issues?**
-4. **Do you need help from other team members?**
+#### **Goal:** Add inventory system with potions
 
-### **Weekly Review (30 minutes)**
-1. **Review completed features**
-2. **Test integration between systems**
-3. **Identify any critical issues**
-4. **Plan next week's priorities**
+#### **Step 1: Create Item Script**
+1. **Create new script:** "Item"
+2. **Code:**
+
+```csharp
+using UnityEngine;
+
+public class Item : MonoBehaviour
+{
+    public string itemName;
+    public ItemType itemType;
+    public int value;
+    
+    public enum ItemType
+    {
+        HealthPotion,
+        ManaPotion
+    }
+    
+    public bool Use(Character target)
+    {
+        switch (itemType)
+        {
+            case ItemType.HealthPotion:
+                target.Heal(value);
+                return true;
+            case ItemType.ManaPotion:
+                target.RestoreMP(value);
+                return true;
+            default:
+                return false;
+        }
+    }
+}
+```
+
+#### **Step 2: Create Inventory Script**
+1. **Create new script:** "Inventory"
+2. **Code:**
+
+```csharp
+using UnityEngine;
+using System.Collections.Generic;
+
+public class Inventory : MonoBehaviour
+{
+    private Dictionary<string, int> items = new Dictionary<string, int>();
+    
+    void Start()
+    {
+        // Give starting items
+        AddItem("HealthPotion", 5);
+        AddItem("ManaPotion", 3);
+    }
+    
+    public void AddItem(string itemName, int quantity)
+    {
+        if (items.ContainsKey(itemName))
+        {
+            items[itemName] += quantity;
+        }
+        else
+        {
+            items[itemName] = quantity;
+        }
+    }
+    
+    public bool UseHealthPotion(Character target)
+    {
+        if (GetItemCount("HealthPotion") > 0)
+        {
+            target.Heal(30);
+            items["HealthPotion"]--;
+            return true;
+        }
+        return false;
+    }
+    
+    public bool UseManaPotion(Character target)
+    {
+        if (GetItemCount("ManaPotion") > 0)
+        {
+            target.RestoreMP(20);
+            items["ManaPotion"]--;
+            return true;
+        }
+        return false;
+    }
+    
+    public int GetItemCount(string itemName)
+    {
+        return items.ContainsKey(itemName) ? items[itemName] : 0;
+    }
+    
+    public bool HasItem(string itemName)
+    {
+        return GetItemCount(itemName) > 0;
+    }
+}
+```
+
+#### **Step 3: Update Battle Manager for Items**
+1. **Add inventory field:**
+
+```csharp
+[Header("Inventory")]
+public Inventory inventory;
+```
+
+2. **Update OnItemClicked() method:**
+
+```csharp
+void OnItemClicked()
+{
+    if (inventory.UseHealthPotion(currentPlayer))
+    {
+        ShowBattleLog("Used Health Potion! Healed 30 HP.");
+        UpdateUI();
+    }
+    else
+    {
+        ShowBattleLog("No Health Potions available!");
+    }
+    EnemyTurn();
+}
+```
+
+#### **Step 4: Add Item Display with Real Sprites**
+1. **In Battle scene, add item icons:**
+   - **Right-click Canvas** → UI → Image
+   - **Name:** "HealthPotionIcon"
+   - **Position:** Top center
+   - **Image:** Drag your health potion sprite
+   - **Size:** 32x32 pixels
+2. **Add item count text:**
+   - **Right-click Canvas** → UI → Text
+   - **Name:** "ItemCountText"
+   - **Position:** Next to health potion icon
+   - **Text:** "5"
+3. **Repeat for mana potion:**
+   - **Create ManaPotionIcon** with mana potion sprite
+   - **Create ManaPotionCount** text
+
+2. **Update BattleManager:**
+   - **Add field:** `public Text itemCountText;`
+   - **Update UpdateUI() method:**
+
+```csharp
+void UpdateUI()
+{
+    // Update HP bars
+    playerHPBar.value = (float)currentPlayer.currentHP / currentPlayer.maxHP;
+    enemyHPBar.value = (float)currentEnemy.currentHP / currentEnemy.maxHP;
+    
+    // Update HP text
+    playerHPText.text = $"{currentPlayer.characterName}: {currentPlayer.currentHP}/{currentPlayer.maxHP}";
+    enemyHPText.text = $"{currentEnemy.characterName}: {currentEnemy.currentHP}/{currentEnemy.maxHP}";
+    
+    // Update item count
+    itemCountText.text = $"Health Potions: {inventory.GetItemCount("HealthPotion")}, Mana Potions: {inventory.GetItemCount("ManaPotion")}";
+}
+```
+
+#### **Day 6 Success Criteria:**
+- [ ] Inventory system works
+- [ ] Health potions heal characters
+- [ ] Item count displays correctly
+- [ ] Items are consumed when used
 
 ---
 
-## 🚨 Risk Management
+### **Day 7: Complete Game Loop + Testing**
 
-### **High-Risk Areas**
-1. **Unity Learning Curve** - Start with Unity basics early
-2. **Integration Issues** - Test integration daily
-3. **Scope Creep** - Stick to MVP features only
-4. **Git Conflicts** - Communicate changes frequently
+#### **Goal:** Complete the basic game loop and test everything
 
-### **Mitigation Strategies**
-1. **Daily Testing** - Test your code every day
-2. **Frequent Commits** - Commit working code frequently
-3. **Backup Strategy** - Push to GitHub daily
-4. **Fallback Plan** - Have simpler alternatives ready
+#### **Step 1: Add Game Over Screen**
+1. **In Battle scene, add UI:**
+   - **Right-click Canvas** → UI → Text
+   - **Name:** "GameOverText"
+   - **Position:** Center
+   - **Text:** "Game Over!"
+   - **Font Size:** 24
+   - **Color:** Red
+   - **Initially disabled**
+
+2. **Update BattleManager:**
+   - **Add field:** `public Text gameOverText;`
+   - **Update EnemyTurn() method:**
+
+```csharp
+void EnemyTurn()
+{
+    int damage = Random.Range(10, 20);
+    currentPlayer.TakeDamage(damage);
+    ShowBattleLog($"Enemy attacked for {damage} damage!");
+    UpdateUI();
+    
+    if (currentPlayer.IsDead())
+    {
+        if (teamManager.IsTeamWiped())
+        {
+            ShowBattleLog("Game Over!");
+            gameOverText.gameObject.SetActive(true);
+        }
+        else
+        {
+            currentPlayer = teamManager.SwitchToNext();
+            ShowBattleLog($"Switched to {currentPlayer.characterName}!");
+        }
+    }
+}
+```
+
+#### **Step 2: Add Victory Screen**
+1. **Add UI:**
+   - **Right-click Canvas** → UI → Text
+   - **Name:** "VictoryText"
+   - **Position:** Center
+   - **Text:** "Victory!"
+   - **Font Size:** 24
+   - **Color:** Green
+   - **Initially disabled**
+
+2. **Update OnAttackClicked() method:**
+
+```csharp
+void OnAttackClicked()
+{
+    int damage = Random.Range(15, 25);
+    currentEnemy.TakeDamage(damage);
+    ShowBattleLog($"Player attacked for {damage} damage!");
+    UpdateUI();
+    
+    if (currentEnemy.IsDead())
+    {
+        ShowBattleLog("Victory!");
+        victoryText.gameObject.SetActive(true);
+        return;
+    }
+    
+    EnemyTurn();
+}
+```
+
+#### **Step 3: Add Restart Button**
+1. **Add button:**
+   - **Right-click Canvas** → UI → Button
+   - **Name:** "RestartButton"
+   - **Text:** "Restart Game"
+   - **Position:** Center
+   - **Initially disabled**
+
+2. **Update BattleManager:**
+   - **Add field:** `public Button restartButton;`
+   - **Add method:**
+
+```csharp
+void OnRestartClicked()
+{
+    GameManager.Instance.TransitionToMap();
+}
+```
+
+#### **Step 4: Test Complete Game Loop**
+1. **Start from Map scene**
+2. **Move player into battle zone**
+3. **Fight battle**
+4. **Test all buttons**
+5. **Test character switching**
+6. **Test item usage**
+7. **Test victory/defeat conditions**
+
+#### **Day 7 Success Criteria:**
+- [ ] Complete game loop works
+- [ ] All features tested
+- [ ] No critical bugs
+- [ ] Game is playable from start to finish
 
 ---
 
-## 📊 Success Metrics
+## 📅 Week 2: Logic Integration + Polish
 
-### **Week 1 Goals**
-- [ ] All POCO classes working with unit tests
-- [ ] BattleManager executes battles correctly
-- [ ] Inventory system manages items
-- [ ] Map movement and zone triggers work
-- [ ] Complete game loop (move → battle → return)
+### **Day 8: Advanced Combat Logic**
 
-### **Week 2 Goals**
-- [ ] Battle UI is functional and responsive
-- [ ] Map UI displays team status
-- [ ] Scene transitions work smoothly
-- [ ] Game is visually polished
-- [ ] No critical bugs or crashes
+#### **Goal:** Implement proper damage calculations and combat mechanics
 
-### **Final Deliverable**
+#### **Step 1: Create Damage Calculator**
+1. **Create new script:** "DamageCalculator"
+2. **Code:**
+
+```csharp
+using UnityEngine;
+
+public class DamageCalculator : MonoBehaviour
+{
+    public static int CalculateDamage(Character attacker, Character defender, bool isSuperAttack)
+    {
+        int baseDamage = attacker.attack - (defender.defense / 2);
+        if (isSuperAttack) baseDamage *= 2;
+        
+        int variance = Random.Range(-3, 4);
+        return Mathf.Max(1, baseDamage + variance);
+    }
+    
+    public static bool CheckHit(Character attacker, Character defender)
+    {
+        // Simple hit chance - can be expanded later
+        return Random.Range(0f, 1f) > 0.1f; // 90% hit chance
+    }
+}
+```
+
+#### **Step 2: Update Battle Manager**
+1. **Update OnAttackClicked() method:**
+
+```csharp
+void OnAttackClicked()
+{
+    if (!DamageCalculator.CheckHit(currentPlayer, currentEnemy))
+    {
+        ShowBattleLog("Player missed!");
+        EnemyTurn();
+        return;
+    }
+    
+    int damage = DamageCalculator.CalculateDamage(currentPlayer, currentEnemy, false);
+    currentEnemy.TakeDamage(damage);
+    ShowBattleLog($"Player attacked for {damage} damage!");
+    UpdateUI();
+    
+    if (currentEnemy.IsDead())
+    {
+        ShowBattleLog("Victory!");
+        victoryText.gameObject.SetActive(true);
+        return;
+    }
+    
+    EnemyTurn();
+}
+```
+
+#### **Step 3: Add MP System**
+1. **Update OnSuperAttackClicked() method:**
+
+```csharp
+void OnSuperAttackClicked()
+{
+    if (currentPlayer.currentMP < 15)
+    {
+        ShowBattleLog("Not enough MP!");
+        return;
+    }
+    
+    currentPlayer.currentMP -= 15;
+    int damage = DamageCalculator.CalculateDamage(currentPlayer, currentEnemy, true);
+    currentEnemy.TakeDamage(damage);
+    ShowBattleLog($"Player used Super Attack for {damage} damage!");
+    UpdateUI();
+    
+    if (currentEnemy.IsDead())
+    {
+        ShowBattleLog("Victory!");
+        victoryText.gameObject.SetActive(true);
+        return;
+    }
+    
+    EnemyTurn();
+}
+```
+
+#### **Day 8 Success Criteria:**
+- [ ] Damage calculations work properly
+- [ ] MP system functions
+- [ ] Hit/miss system works
+- [ ] Combat feels balanced
+
+---
+
+### **Day 9: Leveling System + XP**
+
+#### **Goal:** Add XP and leveling system
+
+#### **Step 1: Update Character Script**
+1. **Add leveling methods:**
+
+```csharp
+public void GainXP(int amount)
+{
+    currentXP += amount;
+    int xpNeeded = level * 100;
+    
+    if (currentXP >= xpNeeded)
+    {
+        LevelUp();
+    }
+}
+
+void LevelUp()
+{
+    level++;
+    currentXP = 0;
+    
+    // Increase stats by 10%
+    maxHP = Mathf.RoundToInt(maxHP * 1.1f);
+    maxMP = Mathf.RoundToInt(maxMP * 1.1f);
+    attack = Mathf.RoundToInt(attack * 1.1f);
+    defense = Mathf.RoundToInt(defense * 1.1f);
+    
+    // Restore HP/MP to full
+    currentHP = maxHP;
+    currentMP = maxMP;
+}
+```
+
+#### **Step 2: Add XP Rewards**
+1. **Update BattleManager:**
+   - **Add method:**
+
+```csharp
+void GiveXPReward()
+{
+    int xpReward = 25; // Base XP reward
+    foreach (Character member in teamManager.teamMembers)
+    {
+        if (!member.IsDead())
+        {
+            member.GainXP(xpReward);
+        }
+    }
+    ShowBattleLog($"Gained {xpReward} XP!");
+}
+```
+
+2. **Call in victory condition:**
+
+```csharp
+if (currentEnemy.IsDead())
+{
+    GiveXPReward();
+    ShowBattleLog("Victory!");
+    victoryText.gameObject.SetActive(true);
+    return;
+}
+```
+
+#### **Step 3: Add Level Display**
+1. **In Battle scene, add text:**
+   - **Name:** "LevelText"
+   - **Position:** Top left
+   - **Text:** "Level: 1"
+
+2. **Update BattleManager:**
+   - **Add field:** `public Text levelText;`
+   - **Update UpdateUI() method:**
+
+```csharp
+void UpdateUI()
+{
+    // Update HP bars
+    playerHPBar.value = (float)currentPlayer.currentHP / currentPlayer.maxHP;
+    enemyHPBar.value = (float)currentEnemy.currentHP / currentEnemy.maxHP;
+    
+    // Update HP text
+    playerHPText.text = $"{currentPlayer.characterName}: {currentPlayer.currentHP}/{currentPlayer.maxHP}";
+    enemyHPText.text = $"{currentEnemy.characterName}: {currentEnemy.currentHP}/{currentEnemy.maxHP}";
+    
+    // Update item count
+    itemCountText.text = $"Health Potions: {inventory.GetItemCount("HealthPotion")}, Mana Potions: {inventory.GetItemCount("ManaPotion")}";
+    
+    // Update level
+    levelText.text = $"Level: {currentPlayer.level}";
+}
+```
+
+#### **Day 9 Success Criteria:**
+- [ ] XP system works
+- [ ] Characters level up
+- [ ] Stats increase on level up
+- [ ] Level display updates
+
+---
+
+### **Day 10: Visual Polish + Sprites**
+
+#### **Goal:** Add visual polish with sprites and animations
+
+#### **Step 1: Organize and Import All Sprites**
+1. **Create complete folder structure:**
+   - **Sprites/Characters/** - Player character sprites
+   - **Sprites/Enemies/** - Troll sprites
+   - **Sprites/Items/** - Potion sprites
+   - **Sprites/UI/** - Button and UI sprites
+   - **Sprites/Backgrounds/** - Map and battle backgrounds
+
+2. **Import all sprites:**
+   - **Drag all sprite files** to appropriate folders
+   - **Select each sprite** in Project
+   - **In Inspector:**
+     - **Sprite Mode:** Single
+     - **Pixels Per Unit:** 100
+     - **Filter Mode:** Point (for pixel art) or Bilinear (for smooth art)
+     - **Click Apply**
+
+3. **Test all sprites:**
+   - **Select each sprite** to preview in Inspector
+   - **No import errors** in Console
+   - **All sprites display correctly**
+
+#### **Step 2: Update Player Sprite**
+1. **Select Player object** in Map scene
+2. **In Sprite Renderer:**
+   - **Sprite:** Drag your player sprite
+   - **Color:** White
+
+#### **Step 3: Add Character Sprites in Battle**
+1. **In Battle scene, create empty GameObjects:**
+   - **PlayerDisplay** (left side)
+   - **EnemyDisplay** (right side)
+
+2. **Add Sprite Renderer to each:**
+   - **PlayerDisplay:** Player sprite
+   - **EnemyDisplay:** Enemy sprite
+
+#### **Step 4: Add Simple Animations**
+1. **Create Animator Controller:**
+   - **Right-click in Project** → Create → Animator Controller
+   - **Name:** "PlayerAnimator"
+
+2. **Select Player object:**
+   - **Add Component** → Animator
+   - **Controller:** PlayerAnimator
+
+#### **Step 5: Complete Asset Integration**
+1. **Update all character sprites:**
+   - **Map scene:** Player sprite
+   - **Battle scene:** PlayerDisplay and EnemyDisplay sprites
+   - **Test:** All sprites display correctly
+
+2. **Update UI with real sprites:**
+   - **Button sprites:** Use your UI sprites for buttons
+   - **Item icons:** Use your potion sprites
+   - **Background:** Use your battle background
+
+3. **Test complete visual integration:**
+   - **Map scene:** Player moves with real sprite
+   - **Battle scene:** All sprites display correctly
+   - **UI elements:** Use real sprites instead of default
+   - **No missing sprites** or errors
+
+#### **Day 10 Success Criteria:**
+- [ ] Sprites display correctly
+- [ ] Game looks professional
+- [ ] Animations work (optional)
+- [ ] Visual polish complete
+
+---
+
+### **Day 11: Sound Effects + Audio**
+
+#### **Goal:** Add sound effects to enhance gameplay
+
+#### **Step 1: Import Audio Files**
+1. **Drag audio files** to Assets/Audio/ folder
+2. **Select each audio file:**
+   - **Load Type:** Compressed in Memory
+   - **Compression Format:** Vorbis
+
+#### **Step 2: Add Audio Sources**
+1. **Select BattleManager object:**
+   - **Add Component** → Audio Source
+   - **Audio Clip:** Attack sound
+   - **Play On Awake:** False
+
+2. **Add more Audio Sources** for different sounds
+
+#### **Step 3: Update Battle Manager**
+1. **Add audio fields:**
+
+```csharp
+[Header("Audio")]
+public AudioSource attackSound;
+public AudioSource hitSound;
+public AudioSource levelUpSound;
+```
+
+2. **Play sounds in methods:**
+
+```csharp
+void OnAttackClicked()
+{
+    attackSound.Play();
+    // ... rest of method
+}
+```
+
+#### **Day 11 Success Criteria:**
+- [ ] Sound effects play correctly
+- [ ] Audio enhances gameplay
+- [ ] No audio conflicts
+- [ ] Performance is good
+
+---
+
+### **Day 12: Game Balance + Testing**
+
+#### **Goal:** Balance the game and test thoroughly
+
+#### **Step 1: Adjust Enemy Stats**
+1. **Test each troll:**
+   - **Troll1:** Should be easy for level 1 characters
+   - **Troll2:** Should be challenging for level 2-3 characters
+   - **Troll3:** Should be difficult for level 4+ characters
+
+2. **Adjust stats** in CreateEnemy() method as needed
+
+#### **Step 2: Balance Character Stats**
+1. **Test each character type:**
+   - **Tank:** Should survive longer but deal less damage
+   - **DPS:** Should deal high damage but be fragile
+   - **Mage:** Should have high MP for super attacks
+
+2. **Adjust stats** in TeamManager as needed
+
+#### **Step 3: Test Complete Game**
+1. **Play through entire game**
+2. **Test all features**
+3. **Note any bugs or issues**
+4. **Fix critical problems**
+
+#### **Day 12 Success Criteria:**
+- [ ] Game is balanced
+- [ ] All features work
+- [ ] No critical bugs
+- [ ] Game is fun to play
+
+---
+
+### **Day 13: Final Polish + Optimization**
+
+#### **Goal:** Final polish and performance optimization
+
+#### **Step 1: Performance Optimization**
+1. **Check for performance issues:**
+   - **Frame rate** should be stable
+   - **Memory usage** should be reasonable
+   - **No unnecessary objects** in scene
+
+2. **Optimize if needed:**
+   - **Remove unused scripts**
+   - **Simplify complex calculations**
+   - **Optimize UI updates**
+
+#### **Step 2: Final Visual Polish**
+1. **Add particle effects** (optional)
+2. **Improve UI layout**
+3. **Add visual feedback** for actions
+4. **Polish animations**
+
+#### **Step 3: Final Testing**
+1. **Complete playthrough**
+2. **Test all edge cases**
+3. **Verify save/load** (if implemented)
+4. **Check for memory leaks**
+
+#### **Day 13 Success Criteria:**
+- [ ] Game runs smoothly
+- [ ] Visual polish complete
+- [ ] No performance issues
+- [ ] Ready for presentation
+
+---
+
+### **Day 14: Presentation Preparation**
+
+#### **Goal:** Prepare for final presentation
+
+#### **Step 1: Create Demo Save**
+1. **Create a save file** with good progress
+2. **Test demo flow** from start to finish
+3. **Prepare talking points** for each feature
+
+#### **Step 2: Final Bug Fixes**
+1. **Fix any remaining bugs**
+2. **Test on different devices** (if possible)
+3. **Verify all features work**
+
+#### **Step 3: Presentation Materials**
+1. **Prepare slides** showing:
+   - **Architecture overview**
+   - **Key features implemented**
+   - **Technical challenges solved**
+   - **Future improvements**
+
+2. **Prepare demo script:**
+   - **What to show** in each part
+   - **What to explain** about the code
+   - **How to handle** technical questions
+
+#### **Day 14 Success Criteria:**
+- [ ] Demo works perfectly
+- [ ] Presentation materials ready
+- [ ] Team prepared for questions
+- [ ] Project ready for submission
+
+---
+
+## 🎯 **Success Metrics**
+
+### **Week 1 Goals:**
+- [ ] Player moves on map
+- [ ] Battle zones trigger battles
+- [ ] Basic combat works
+- [ ] Character switching works
+- [ ] Items function correctly
+- [ ] Complete game loop works
+
+### **Week 2 Goals:**
+- [ ] Advanced combat mechanics
+- [ ] Leveling system works
+- [ ] Visual polish complete
+- [ ] Sound effects added
+- [ ] Game is balanced
+- [ ] Performance is good
+
+### **Final Deliverable:**
 - [ ] Playable game from start to finish
 - [ ] All 3 trolls can be defeated
 - [ ] Team switching works correctly
@@ -495,28 +1583,46 @@ UniQuest/
 
 ---
 
-## 🎯 Final Advice
+## 🚀 **Key Success Factors**
 
-### **Week 1 Focus**
-- **Get logic working first** - UI can wait
-- **Test frequently** - Don't wait until the end
-- **Keep it simple** - Avoid complex features
-- **Communicate daily** - Don't work in isolation
+### **1. Visual Progress Every Day**
+- **See something working** each day
+- **Test frequently** as you build
+- **Get feedback early** from team members
 
-### **Week 2 Focus**
-- **Polish what you have** - Don't add new features
-- **Test the complete game** - End-to-end testing
-- **Prepare for presentation** - Have a demo ready
-- **Document everything** - README, controls, etc.
+### **2. Unity-First Approach**
+- **Start with Unity** instead of pure C#
+- **Integrate assets early** to guide design
+- **Test in Unity** from Day 1
 
-### **Team Success Tips**
-- **Help each other** - Share knowledge and resources
-- **Ask questions early** - Don't struggle alone
-- **Celebrate small wins** - Each working feature is progress
-- **Stay focused** - MVP first, polish later
+### **3. Team Coordination**
+- **Daily standups** to share progress
+- **Help each other** with Unity issues
+- **Test together** regularly
+
+### **4. Focus on MVP**
+- **Core gameplay first** - polish later
+- **Don't add features** unless essential
+- **Test the complete game** every day
 
 ---
 
-**Remember: A working game with basic graphics is better than a beautiful game that doesn't work!** 🎮
+## 🎮 **Final Advice**
+
+**Week 1 Focus:** Get the game working visually  
+**Week 2 Focus:** Polish and balance  
+
+**Don't get stuck on:**
+- Perfect art (use placeholders first)
+- Complex features (keep it simple)
+- Perfect code (make it work first)
+
+**Focus on:**
+- **Visual progress** every day
+- **Testing frequently** 
+- **Helping each other**
+- **Having fun** with the project
+
+**Remember:** A working game with basic graphics is better than a beautiful game that doesn't work!
 
 **Good luck, team! You've got this! 🚀**

@@ -153,6 +153,13 @@ classDiagram
         +static GetTrollByZone(zoneIndex: int) EnemyCharacter
     }
     
+    class PlayerDatabase {
+        +static CreateWarriorGirl1() PlayerCharacter
+        +static CreateWarriorGirl2() PlayerCharacter
+        +static CreateWarriorGirl3() PlayerCharacter
+        +static GetWarriorGirlByType(typeIndex: int) PlayerCharacter
+    }
+    
     class ItemDatabase {
         +const int HEALTH_POTION_HEAL = 30
         +const int MANA_POTION_RESTORE = 20
@@ -206,6 +213,7 @@ classDiagram
     BattleUI ..> Character : displays
     MapUI ..> Team : displays
     EnemyDatabase ..> EnemyCharacter : creates
+    PlayerDatabase ..> PlayerCharacter : creates
     Inventory ..> Item : stores
     ItemDatabase ..> ItemType : defines
     BattleManager ..> BattleState : uses
@@ -213,6 +221,7 @@ classDiagram
     GameManager ..> GameState : manages
     Inventory ..> ItemDatabase : uses
     BattleManager ..> ItemDatabase : uses
+    GameManager ..> PlayerDatabase : uses
 ```
 
 ---
@@ -302,9 +311,9 @@ Created at game start. Team has exactly 3 instances.
 
 **Example initialization:**
 ```csharp
-var warrior = new PlayerCharacter("Warrior Girl", maxHP: 100, maxMP: 30, attack: 20, defense: 10);
-var vampire = new PlayerCharacter("Vampire", maxHP: 80, maxMP: 50, attack: 18, defense: 8);
-var mage = new PlayerCharacter("Mage", maxHP: 70, maxMP: 60, attack: 25, defense: 5);
+var tank = PlayerDatabase.CreateWarriorGirl1();   // Tank: high HP/defense
+var dps = PlayerDatabase.CreateWarriorGirl2();    // DPS: high attack
+var mage = PlayerDatabase.CreateWarriorGirl3();   // Mage: high MP/attack
 ```
 
 ---
@@ -589,9 +598,9 @@ public void LoadGame() // Optional: PlayerPrefs simple load
 ```csharp
 team = new Team();
 team.InitializeTeam(
-    new PlayerCharacter("Warrior Girl", 100, 30, 20, 10, 5),
-    new PlayerCharacter("Vampire", 80, 50, 18, 8, 7),
-    new PlayerCharacter("Mage", 70, 60, 25, 5, 6)
+    PlayerDatabase.CreateWarriorGirl1(), // Tank
+    PlayerDatabase.CreateWarriorGirl2(), // DPS
+    PlayerDatabase.CreateWarriorGirl3()  // Mage
 );
 inventory = new Inventory();
 inventory.AddItem("HealthPotion", 5);
@@ -697,6 +706,43 @@ Called by BattleZone when player enters a zone.
 
 **Simplification:**  
 3 specific trolls instead of random enemies. Each zone has one troll. Much simpler to balance and test.
+
+---
+
+### 12b. PlayerDatabase (Static Utility Class)
+
+**Responsibilities:**  
+Factory for creating the 3 types of Warrior Girls. Consistent with EnemyDatabase approach.
+
+**Methods:**
+```csharp
+public static PlayerCharacter CreateWarriorGirl1() {
+    return new PlayerCharacter("Warrior Girl (Tank)", maxHP: 120, maxMP: 20, attack: 15, defense: 15);
+}
+
+public static PlayerCharacter CreateWarriorGirl2() {
+    return new PlayerCharacter("Warrior Girl (DPS)", maxHP: 80, maxMP: 30, attack: 25, defense: 8);
+}
+
+public static PlayerCharacter CreateWarriorGirl3() {
+    return new PlayerCharacter("Warrior Girl (Mage)", maxHP: 70, maxMP: 60, attack: 22, defense: 5);
+}
+
+public static PlayerCharacter GetWarriorGirlByType(int typeIndex) {
+    switch(typeIndex) {
+        case 0: return CreateWarriorGirl1(); // Tank
+        case 1: return CreateWarriorGirl2(); // DPS
+        case 2: return CreateWarriorGirl3(); // Mage
+        default: return CreateWarriorGirl1(); // Fallback
+    }
+}
+```
+
+**Usage:**  
+Called by GameManager when initializing the team.
+
+**Simplification:**  
+3 types of Warrior Girls instead of different character classes. Each type has different stats and role.
 
 ---
 
@@ -865,7 +911,7 @@ public enum BattleResult {
 ## Minimal Asset Requirements
 
 ### Sprites Needed (8 total)
-- 3 player character sprites (Warrior Girl, Vampire, Mage)
+- 3 player character sprites (Warrior Girl1, Warrior Girl2, Warrior Girl3)
 - 3 troll sprites (Troll1, Troll2, Troll3) - can be same sprite with different colors
 - 2 item icons (Health Potion, Mana Potion)
 - 1 map background or tileset
