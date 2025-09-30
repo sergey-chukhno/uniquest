@@ -16,11 +16,10 @@ classDiagram
         +int currentMP
         +int attack
         +int defense
-        +int speed
         +int currentXP
         +bool isAlive
         +Sprite sprite
-        +Character(name, maxHP, maxMP, attack, defense, speed)
+        +Character(name, maxHP, maxMP, attack, defense)
         +TakeDamage(amount: int) void
         +Heal(amount: int) void
         +RestoreMP(amount: int) void
@@ -30,12 +29,12 @@ classDiagram
     }
     
     class PlayerCharacter {
-        +PlayerCharacter(name, maxHP, maxMP, attack, defense, speed)
+        +PlayerCharacter(name, maxHP, maxMP, attack, defense)
     }
     
     class EnemyCharacter {
         +int xpReward
-        +EnemyCharacter(name, maxHP, maxMP, attack, defense, speed, xpReward)
+        +EnemyCharacter(name, maxHP, maxMP, attack, defense, xpReward)
         +GetXPReward() int
     }
     
@@ -107,7 +106,7 @@ classDiagram
         +GetTrollForZone() EnemyCharacter
     }
     
-    %% Game Manager (Simplified)
+    %% Game Manager 
     class GameManager {
         <<MonoBehaviour>>
         <<Singleton>>
@@ -220,9 +219,9 @@ classDiagram
 
 ## Simplified Design Overview
 
-**Total Classes: 15** (down from 30+)  
+**Total Classes: 15**
 **Development Time: 2 weeks**  
-**Team Size: 3-4 students**
+
 
 This design removes:
 - ❌ CharacterType system (no elemental types)
@@ -236,7 +235,6 @@ This design removes:
 This design keeps:
 - ✅ 3-character fixed team
 - ✅ Turn-based 1v1 combat
-- ✅ Random encounters on map
 - ✅ Basic inventory (2 potion types)
 - ✅ HP/MP/XP/Leveling
 - ✅ Clear separation of concerns
@@ -261,7 +259,6 @@ public int maxMP
 public int currentMP
 public int attack       // damage scaling
 public int defense      // damage reduction
-public int speed        // turn order (not used in simplified version)
 public int currentXP
 public bool isAlive
 public Sprite sprite    // for display
@@ -269,7 +266,7 @@ public Sprite sprite    // for display
 
 **Important Methods:**
 ```csharp
-public Character(string name, int maxHP, int maxMP, int attack, int defense, int speed)
+public Character(string name, int maxHP, int maxMP, int attack, int defense)
 public void TakeDamage(int amount)  // Reduces HP, sets isAlive = false if HP <= 0
 public void Heal(int amount)        // Increases HP up to maxHP
 public void RestoreMP(int amount)   // Increases MP up to maxMP
@@ -296,8 +293,8 @@ Represents one of the 3 player team members.
 
 **Methods:**
 ```csharp
-public PlayerCharacter(string name, int maxHP, int maxMP, int attack, int defense, int speed) 
-    : base(name, maxHP, maxMP, attack, defense, speed)
+public PlayerCharacter(string name, int maxHP, int maxMP, int attack, int defense) 
+    : base(name, maxHP, maxMP, attack, defense)
 ```
 
 **Usage:**  
@@ -305,9 +302,9 @@ Created at game start. Team has exactly 3 instances.
 
 **Example initialization:**
 ```csharp
-var warrior = new PlayerCharacter("Warrior Girl", maxHP: 100, maxMP: 30, attack: 20, defense: 10, speed: 5);
-var vampire = new PlayerCharacter("Vampire", maxHP: 80, maxMP: 50, attack: 18, defense: 8, speed: 7);
-var mage = new PlayerCharacter("Mage", maxHP: 70, maxMP: 60, attack: 25, defense: 5, speed: 6);
+var warrior = new PlayerCharacter("Warrior Girl", maxHP: 100, maxMP: 30, attack: 20, defense: 10);
+var vampire = new PlayerCharacter("Vampire", maxHP: 80, maxMP: 50, attack: 18, defense: 8);
+var mage = new PlayerCharacter("Mage", maxHP: 70, maxMP: 60, attack: 25, defense: 5);
 ```
 
 ---
@@ -324,8 +321,8 @@ public int xpReward
 
 **Methods:**
 ```csharp
-public EnemyCharacter(string name, int maxHP, int maxMP, int attack, int defense, int speed, int xpReward) 
-    : base(name, maxHP, maxMP, attack, defense, speed)
+public EnemyCharacter(string name, int maxHP, int maxMP, int attack, int defense, int xpReward) 
+    : base(name, maxHP, maxMP, attack, defense)
 public int GetXPReward()
 ```
 
@@ -465,7 +462,7 @@ return Mathf.Max(1, baseDamage + randomVariance); // At least 1 damage
 Attached to Battle scene GameObject. Controlled by UI button clicks.
 
 **Simplifications:**
-- No turn order system (always player first)
+- No turn order system (always player first, no speed stat needed)
 - No attack miss chance (always hits)
 - No critical hits
 - Simple enemy AI (random attack choice)
@@ -674,15 +671,15 @@ Factory for creating the 3 specific trolls. No random enemies, no ScriptableObje
 **Methods:**
 ```csharp
 public static EnemyCharacter CreateTroll1() {
-    return new EnemyCharacter("Troll1", maxHP: 40, maxMP: 15, attack: 12, defense: 5, speed: 3, xpReward: 25);
+    return new EnemyCharacter("Troll1", maxHP: 40, maxMP: 15, attack: 12, defense: 5, xpReward: 25);
 }
 
 public static EnemyCharacter CreateTroll2() {
-    return new EnemyCharacter("Troll2", maxHP: 60, maxMP: 20, attack: 16, defense: 8, speed: 4, xpReward: 40);
+    return new EnemyCharacter("Troll2", maxHP: 60, maxMP: 20, attack: 16, defense: 8, xpReward: 40);
 }
 
 public static EnemyCharacter CreateTroll3() {
-    return new EnemyCharacter("Troll3", maxHP: 80, maxMP: 25, attack: 20, defense: 12, speed: 5, xpReward: 60);
+    return new EnemyCharacter("Troll3", maxHP: 80, maxMP: 25, attack: 20, defense: 12, xpReward: 60);
 }
 
 public static EnemyCharacter GetTrollByZone(int zoneIndex) {
