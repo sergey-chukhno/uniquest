@@ -60,11 +60,6 @@
 4. **Click:** "Install"
 5. **Wait:** 30-60 minutes for download and installation
 
-#### **1.4 Install Visual Studio (for C# coding)**
-1. **Download:** Visual Studio for Mac from [visualstudio.microsoft.com](https://visualstudio.microsoft.com/vs/mac/)
-2. **Install:** Follow the installer
-3. **Select:** .NET development workload
-4. **Complete installation**
 
 ### **Step 2: Create Project**
 1. **Open Unity Hub**
@@ -206,47 +201,212 @@ public class CameraFollow : MonoBehaviour
 5. **Set Target:** Drag Player to Target field
 6. **Set Offset:** (0, 0, -10)
 
+#### **Step 6: Add Player Sprite Animations**
+
+**Goal:** Add idle and run animations to make player movement more visually appealing
+
+##### **Step 6.1: Create Animator Controller**
+1. **Right-click in Project** → Create → Animator Controller
+2. **Name it:** "PlayerAnimator"
+3. **Double-click** to open Animator window
+
+##### **Step 6.2: Set Up Player Animator**
+1. **Select Player object** in Hierarchy
+2. **Add Component** → Animator
+3. **Controller:** Drag PlayerAnimator from Project
+4. **Avatar:** None (Humanoid)
+5. **Apply Root Motion:** Unchecked
+
+##### **Step 6.3: Create Idle Animation**
+1. **Select Player object** in Hierarchy
+2. **Window** → Animation → Animation
+3. **Click "Create"** button in Animation window
+4. **Name:** "PlayerIdle"
+5. **Save in:** Assets/Animations/ (create folder if needed)
+6. **In Animation window:**
+   - **Click "Add Property"** → Sprite Renderer → Sprite
+   - **Drag your idle sprite** to the Sprite field
+   - **Set keyframe** at time 0:00
+   - **Set keyframe** at time 1:00 (same sprite)
+   - **Click "Save"** button
+
+##### **Step 6.4: Create Run Animation**
+1. **In Animation window, click "Create"** again
+2. **Name:** "PlayerRun"
+3. **Save in:** Assets/Animations/
+4. **In Animation window:**
+   - **Click "Add Property"** → Sprite Renderer → Sprite
+   - **Drag your run sprite** to the Sprite field
+   - **Set keyframe** at time 0:00
+   - **Set keyframe** at time 0:5 (same sprite)
+   - **Set keyframe** at time 1:0 (same sprite)
+   - **Click "Save"** button
+
+##### **Step 6.5: Set Up Animation Transitions**
+1. **Open Animator window** (Window → Animation → Animator)
+2. **You should see:** PlayerIdle and PlayerRun states
+3. **Right-click PlayerIdle** → Make Transition → Click PlayerRun
+4. **Right-click PlayerRun** → Make Transition → Click PlayerIdle
+5. **Select Idle→Run transition:**
+   - **Has Exit Time:** Unchecked
+   - **Transition Duration:** 0.1
+   - **Add Condition:** Create new parameter "IsMoving" (Bool)
+   - **Condition:** IsMoving = true
+6. **Select Run→Idle transition:**
+   - **Has Exit Time:** Unchecked
+   - **Transition Duration:** 0.1
+   - **Add Condition:** IsMoving = false
+
+##### **Step 6.6: Update PlayerController Script**
+1. **Open PlayerController.cs**
+2. **Add these fields:**
+```csharp
+[Header("Animation")]
+public Animator animator;
+```
+3. **Update Update() method:**
+```csharp
+void Update()
+{
+    // Get input
+    float horizontal = Input.GetAxis("Horizontal");
+    float vertical = Input.GetAxis("Vertical");
+    
+    // Create movement vector
+    Vector2 movement = new Vector2(horizontal, vertical);
+    
+    // Check if player is moving
+    bool isMoving = movement.magnitude > 0.1f;
+    
+    // Set animation parameter
+    if (animator != null)
+    {
+        animator.SetBool("IsMoving", isMoving);
+    }
+    
+    // Move player
+    transform.Translate(movement * moveSpeed * Time.deltaTime);
+}
+```
+
+##### **Step 6.7: Connect Animator to Script**
+1. **Select Player object** in Hierarchy
+2. **In PlayerController component:**
+   - **Animator:** Drag the Animator component to this field
+3. **Test the setup:**
+   - **Click Play**
+   - **Press arrow keys** - should see run animation
+   - **Stop moving** - should see idle animation
+
+##### **Step 6.8: Test Animations**
+1. **Click Play** in Unity
+2. **Move player** with arrow keys
+3. **You should see:**
+   - **Run animation** when moving
+   - **Idle animation** when stopped
+   - **Smooth transitions** between animations
+4. **Stop and start** movement to test transitions
+
 #### **Day 1 Success Criteria:**
 - [ ] Player moves with arrow keys
 - [ ] Camera follows player (optional)
+- [ ] Player shows idle animation when not moving
+- [ ] Player shows run animation when moving
+- [ ] Smooth transitions between animations
 - [ ] No errors in Console
 
 ---
 
-### **Day 2: Map Scene + Battle Zones**
+### **Day 2: Tilemap-Based Map + Battle Zones**
 
-#### **Goal:** Create map with battle zones that trigger battles
+#### **Goal:** Create a detailed map using tiles and decorative objects with battle zones
 
-#### **Step 1: Create Map Background with Real Assets**
-1. **Use your background sprite:**
-   - **Drag your map background sprite** from Project to Scene
-   - **Position:** (0, 0, 0)
-   - **Name:** "MapBackground"
-2. **Adjust background size:**
-   - **Select MapBackground** in Hierarchy
-   - **In Transform:**
-     - **Scale:** Adjust X and Y to fit screen (try 1, 1, 1 first)
-     - **Position:** (0, 0, 0)
-3. **Test background:**
-   - **Click Play** to see if background displays correctly
-   - **Adjust scale** if background is too big/small
+#### **Step 1: Set Up Tilemap System**
+1. **Create Tilemap GameObject:**
+   - **Right-click in Hierarchy** → 2D Object → Tilemap
+   - **Name:** "BaseTilemap"
+   - **This will create** Grid and Tilemap components
+2. **Create additional tilemap layers:**
+   - **Right-click Grid** → 2D Object → Tilemap
+   - **Name:** "ObjectTilemap" (for decorative objects)
+   - **Right-click Grid** → 2D Object → Tilemap
+   - **Name:** "CollisionTilemap" (for collision tiles)
+   - **Right-click Grid** → 2D Object → Tilemap
+   - **Name:** "BattleZoneTilemap" (for battle triggers)
 
-#### **Step 2: Create Battle Zones**
-1. **Right-click in Hierarchy** → Create Empty
-2. **Name it:** "BattleZone1"
-3. **Position:** (5, 0, 0)
-4. **Add Component** → Box Collider 2D
-5. **Check:** "Is Trigger"
-6. **Size:** (3, 3, 1)
-7. **Add visual indicator:**
-   - **Add Component** → Sprite Renderer
-   - **Sprite:** Create → 2D → Sprites → Square
-   - **Color:** Red with 50% transparency
-   - **Size:** 3x3
+#### **Step 2: Create Tile Palettes**
+1. **Create Base Tile Palette:**
+   - **Right-click in Project** → Create → 2D → Tiles → Tile Palette
+   - **Name:** "BaseTiles"
+   - **Save in:** Assets/TilePalettes/
+2. **Create Object Tile Palette:**
+   - **Right-click in Project** → Create → 2D → Tiles → Tile Palette
+   - **Name:** "ObjectTiles"
+   - **Save in:** Assets/TilePalettes/
+3. **Open Tile Palette window:**
+   - **Window** → 2D → Tile Palette
+   - **Create new palette** for each type
 
-#### **Step 3: Create Battle Zone Script**
-1. **Create new script:** "BattleZone"
-2. **Code:**
+#### **Step 3: Configure Base Tiles (256x256)**
+1. **Select your 256x256 base tiles** in Project
+2. **In Inspector, set:**
+   - **Texture Type:** "Sprite (2D and UI)"
+   - **Sprite Mode:** "Single"
+   - **Pixels Per Unit:** 256 (matches your tile size)
+   - **Filter Mode:** "Point (no filter)"
+   - **Compression:** "None"
+3. **Drag base tiles** to BaseTiles palette
+4. **Test tile placement** in Scene view
+
+#### **Step 4: Configure Object Tiles (Trees, Towers, Stones, Fire)**
+1. **Select your object tiles** in Project
+2. **In Inspector, set:**
+   - **Texture Type:** "Sprite (2D and UI)"
+   - **Sprite Mode:** "Single"
+   - **Pixels Per Unit:** 256 (or adjust based on actual size)
+   - **Filter Mode:** "Point (no filter)"
+   - **Compression:** "None"
+3. **Drag object tiles** to ObjectTiles palette
+4. **Organize by type:** Trees, Towers, Stones, Fire
+
+#### **Step 5: Paint the Base Map**
+1. **Select BaseTilemap** in Hierarchy
+2. **In Tile Palette window, select BaseTiles**
+3. **Paint your map** using the 256x256 base tiles:
+   - **Create paths** using appropriate base tiles
+   - **Create open areas** for movement
+   - **Create boundaries** and edges
+4. **Test the base map** by moving the player around
+
+#### **Step 6: Add Decorative Objects**
+1. **Select ObjectTilemap** in Hierarchy
+2. **In Tile Palette window, select ObjectTiles**
+3. **Place decorative objects:**
+   - **Trees** along paths and edges
+   - **Castle towers** at strategic points
+   - **Stones** scattered around
+   - **Fire** for atmosphere
+4. **Create visual interest** and landmarks
+
+#### **Step 7: Set Up Collision for Objects**
+1. **Select CollisionTilemap** in Hierarchy
+2. **Add Tilemap Collider 2D** component
+3. **For objects that should block movement:**
+   - **Trees** - should block movement
+   - **Castle towers** - should block movement
+   - **Large stones** - should block movement
+   - **Fire** - decorative only (no collision)
+4. **Test collision** by trying to walk through objects
+
+#### **Step 8: Create Battle Zones on Tiles**
+1. **Select BattleZoneTilemap** in Hierarchy
+2. **Create battle zone tiles:**
+   - **Use a special tile** to mark battle zones
+   - **Place battle zones** at strategic locations
+   - **Make them visually distinct** from other tiles
+3. **Add Battle Zone Script:**
+   - **Create new script:** "BattleZone"
+   - **Code:**
 
 ```csharp
 using UnityEngine;
@@ -261,36 +421,47 @@ public class BattleZone : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             Debug.Log($"Player entered zone {zoneIndex}!");
-            // For now, just log - we'll add battle scene later
+            GameManager.Instance.TransitionToBattle(zoneIndex);
         }
     }
 }
 ```
 
-3. **Attach to BattleZone1**
-4. **Set Zone Index:** 0
+4. **Attach to battle zone tiles**
+5. **Set Zone Index** for each zone
 
-#### **Step 4: Tag Player Object**
+#### **Step 9: Tag Player Object**
 1. **Select Player object**
 2. **In Inspector, find Tag dropdown**
 3. **Select:** "Player" (or create new tag if needed)
 
-#### **Step 5: Create More Battle Zones**
-1. **Duplicate BattleZone1** (Cmd + D)
-2. **Name:** "BattleZone2"
-3. **Position:** (10, 0, 0)
-4. **Color:** Orange
-5. **Zone Index:** 1
-6. **Repeat for BattleZone3:**
-   - **Position:** (15, 0, 0)
-   - **Color:** Dark Red
-   - **Zone Index:** 2
+#### **Step 10: Create Multiple Battle Zones**
+1. **Place battle zones** at different locations:
+   - **Zone 1:** Near the starting area
+   - **Zone 2:** In the middle of the map
+   - **Zone 3:** At the end of the map
+2. **Set different Zone Index** for each (0, 1, 2)
+3. **Test each zone** by walking into them
+
+#### **Step 11: Optimize Tilemap Settings**
+1. **Select Grid object** in Hierarchy
+2. **In Grid component:**
+   - **Cell Size:** (1, 1, 0) for 256x256 tiles
+   - **Cell Gap:** (0, 0, 0)
+3. **For each Tilemap:**
+   - **Tile Anchor:** (0.5, 0.5, 0)
+   - **Orientation:** XY
+   - **Sorting Layer:** Default
+   - **Order in Layer:** Set different values for layering
 
 #### **Day 2 Success Criteria:**
-- [ ] Map has background
-- [ ] 3 battle zones visible
+- [ ] Map created using 256x256 base tiles
+- [ ] Decorative objects placed (trees, towers, stones, fire)
+- [ ] Collision works for blocking objects
+- [ ] 3 battle zones placed on specific tiles
 - [ ] Console shows messages when entering zones
-- [ ] Player can move around map
+- [ ] Player can move around the detailed map
+- [ ] Map looks visually appealing and organized
 
 ---
 
