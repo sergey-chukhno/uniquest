@@ -7,6 +7,10 @@ public class BattleManager : MonoBehaviour
     public BattleCharacter playerCharacter;
     public BattleCharacter enemyCharacter;
     
+    [Header("Team Management")]
+    public TeamManager teamManager;
+    public int currentPlayerIndex = 0;
+    
     [Header("Battle UI")]
     public UnityEngine.UI.Button attackButton;
     public UnityEngine.UI.Button superAttackButton;
@@ -35,6 +39,10 @@ public class BattleManager : MonoBehaviour
     [Header("UI Messages")]
     public MessageDisplay messageDisplay;
     
+    [Header("Team UI")]
+    public UnityEngine.UI.Button switchCharacterButton;
+    public UnityEngine.UI.Text currentCharacterText;
+    
     [Header("Visual Effects")]
     public CameraShake cameraShake;
     public ParticleSystem hitEffect;
@@ -48,6 +56,9 @@ public class BattleManager : MonoBehaviour
         
         // Setup button listeners
         SetupButtonListeners();
+        
+        // Setup team management
+        SetupTeamManagement();
         
         // Start player's turn
         StartPlayerTurn();
@@ -397,6 +408,9 @@ public class BattleManager : MonoBehaviour
             }
         }
         
+        // Save current character stats
+        SaveCurrentCharacterStats();
+        
         // Update UI
         UpdateBattleUI();
         
@@ -412,12 +426,18 @@ public class BattleManager : MonoBehaviour
     
     void CheckBattleEnd()
     {
+        // Check if current character is defeated
         if (playerCharacter.currentHealth <= 0)
         {
-            // Player defeated
-            battleEnded = true;
-            ShowMessage("[DEFEAT] You have been defeated! Game Over!");
-            EndBattle(false); // false = player lost
+            // Mark current character as defeated
+            if (teamManager != null && currentPlayerIndex < teamManager.currentTeam.Count)
+            {
+                teamManager.currentTeam[currentPlayerIndex].isDefeated = true;
+                teamManager.currentTeam[currentPlayerIndex].currentHealth = 0;
+            }
+            
+            // Check if team has any alive characters
+            CheckTeamDefeat();
         }
         else if (enemyCharacter.currentHealth <= 0)
         {
@@ -530,6 +550,106 @@ public class BattleManager : MonoBehaviour
             if (!canUseSuperAttack && isPlayerTurn)
             {
                 Debug.Log($"Super Attack disabled - Need 20 MP, have {playerCharacter.currentMana} MP");
+            }
+        }
+    }
+    
+    void SetupTeamManagement()
+    {
+        if (switchCharacterButton != null)
+        {
+            switchCharacterButton.onClick.AddListener(SwitchToNextCharacter);
+        }
+        
+        UpdateCurrentCharacterDisplay();
+    }
+    
+    void SwitchToNextCharacter()
+    {
+        if (teamManager != null && teamManager.currentTeam.Count > 1)
+        {
+            // Find next alive character
+            int startIndex = currentPlayerIndex;
+            int nextIndex = (currentPlayerIndex + 1) % teamManager.currentTeam.Count;
+            
+            while (nextIndex != startIndex)
+            {
+                TeamMember nextMember = teamManager.currentTeam[nextIndex];
+                if (!nextMember.isDefeated)
+                {
+                    SwitchToCharacter(nextIndex);
+                    return;
+                }
+                nextIndex = (nextIndex + 1) % teamManager.currentTeam.Count;
+            }
+            
+            ShowMessage("[TEAM] No other alive characters to switch to!");
+        }
+    }
+    
+    void SwitchToCharacter(int characterIndex)
+    {
+        if (teamManager != null && characterIndex < teamManager.currentTeam.Count)
+        {
+            TeamMember newCharacter = teamManager.currentTeam[characterIndex];
+            
+            if (newCharacter.isDefeated)
+            {
+                ShowMessage($"[TEAM] {newCharacter.characterData.characterName} is defeated and cannot fight!");
+                return;
+            }
+            
+            currentPlayerIndex = characterIndex;
+            teamManager.activeCharacterIndex = characterIndex;
+            
+            // Update player character stats
+            playerCharacter.characterName = newCharacter.characterData.characterName;
+            playerCharacter.maxHealth = newCharacter.characterData.baseHealth;
+            playerCharacter.currentHealth = newCharacter.currentHealth;
+            playerCharacter.maxMana = newCharacter.characterData.baseMana;
+            playerCharacter.currentMana = newCharacter.currentMana;
+            playerCharacter.attackPower = newCharacter.characterData.baseAttack;
+            playerCharacter.defense = newCharacter.characterData.baseDefense;
+            
+            // Update UI
+            UpdateBattleUI();
+            UpdateCurrentCharacterDisplay();
+            
+            ShowMessage($"[TEAM] Switched to {newCharacter.characterData.characterName}!");
+        }
+    }
+    
+    void UpdateCurrentCharacterDisplay()
+    {
+        if (currentCharacterText != null && teamManager != null)
+        {
+            if (currentPlayerIndex < teamManager.currentTeam.Count)
+            {
+                TeamMember currentMember = teamManager.currentTeam[currentPlayerIndex];
+                currentCharacterText.text = $"Active: {currentMember.characterData.characterName}";
+            }
+        }
+    }
+    
+    void SaveCurrentCharacterStats()
+    {
+        if (teamManager != null && currentPlayerIndex < teamManager.currentTeam.Count)
+        {
+            TeamMember currentMember = teamManager.currentTeam[currentPlayerIndex];
+            currentMember.currentHealth = playerCharacter.currentHealth;
+            currentMember.currentMana = playerCharacter.currentMana;
+        }
+    }
+    
+    void CheckTeamDefeat()
+    {
+        if (teamManager != null)
+        {
+            bool hasAliveCharacters = teamManager.HasAliveCharacters();
+            if (!hasAliveCharacters)
+            {
+                ShowMessage("[DEFEAT] All team members are defeated!");
+                EndBattle(false);
             }
         }
     }
