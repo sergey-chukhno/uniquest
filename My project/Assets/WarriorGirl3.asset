@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea18da5bc6a5e4113b3bfe6ac401aa09, type: 3}
+  m_Name: WarriorGirl3
+  m_EditorClassIdentifier: Assembly-CSharp::CharacterData
+  characterName: Warrior Girl 3
+  description: Fast and deadly warrior with high attack but low defense
+  characterSprite: {fileID: 21300000, guid: e6d2f171d2a5147899ecf3c8093dbbff, type: 3}
+  characterPortrait: {fileID: 21300000, guid: e6d2f171d2a5147899ecf3c8093dbbff, type: 3}
+  baseHealth: 80
+  baseMana: 40
+  baseAttack: 30
+  baseDefense: 5
+  specialAbilityName: Lethal Strike
+  specialAbilityDescription: Ultra-high Damage Critical Hit
+  specialAbilityCost: 20
+  specialAbilityDamage: 35
+  characterType: 2
+  characterQuotes: []
