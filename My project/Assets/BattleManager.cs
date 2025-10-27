@@ -197,6 +197,9 @@ public class BattleManager : MonoBehaviour
                 playerCharacter.isPlayer = true;
                 playerCharacter.isAlive = true;
                 
+                // Update character sprite
+                playerCharacter.UpdateSprite(activeCharacter.characterData.characterSprite);
+                
                 Debug.Log($"Loaded team character: {playerCharacter.characterName} - HP: {playerCharacter.currentHealth}/{playerCharacter.maxHealth}, MP: {playerCharacter.currentMana}/{playerCharacter.maxMana}");
                 Debug.Log($"Current player index: {currentPlayerIndex}");
             }
@@ -633,12 +636,16 @@ public class BattleManager : MonoBehaviour
         
         if (switchCharacterButton != null)
         {
+            // Check if button is active and visible
+            Debug.Log($"Switch button GameObject active: {switchCharacterButton.gameObject.activeInHierarchy}");
+            Debug.Log($"Switch button interactable: {switchCharacterButton.interactable}");
+            
             switchCharacterButton.onClick.AddListener(SwitchToNextCharacter);
             Debug.Log("Switch character button listener added!");
         }
         else
         {
-            Debug.LogWarning("Switch character button is null!");
+            Debug.LogWarning("Switch character button is null! Please check if it's connected in the Inspector.");
         }
         
         UpdateCurrentCharacterDisplay();
@@ -703,6 +710,9 @@ public class BattleManager : MonoBehaviour
             playerCharacter.attackPower = newCharacter.characterData.baseAttack;
             playerCharacter.defense = newCharacter.characterData.baseDefense;
             playerCharacter.isAlive = true; // Ensure the new character is marked as alive
+            
+            // Update character sprite
+            playerCharacter.UpdateSprite(newCharacter.characterData.characterSprite);
             
             // Update UI
             UpdateBattleUI();

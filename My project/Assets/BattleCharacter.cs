@@ -11,6 +11,9 @@ public class BattleCharacter : MonoBehaviour
     public int maxMana = 50;
     public int currentMana;
     
+    [Header("Character Visual")]
+    public Sprite characterSprite;
+    
     [Header("Battle UI")]
     public UnityEngine.UI.Slider healthBar;
     public UnityEngine.UI.Slider manaBar;
@@ -187,5 +190,23 @@ public class BattleCharacter : MonoBehaviour
     public float GetManaPercentage()
     {
         return (float)currentMana / maxMana;
+    }
+    
+    // Update character sprite
+    public void UpdateSprite(Sprite newSprite)
+    {
+        characterSprite = newSprite;
+        
+        // Update the SpriteRenderer component
+        SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+        if (spriteRenderer != null)
+        {
+            spriteRenderer.sprite = newSprite;
+            Debug.Log($"{characterName} sprite updated!");
+        }
+        else
+        {
+            Debug.LogWarning($"No SpriteRenderer found on {characterName}!");
+        }
     }
 }
