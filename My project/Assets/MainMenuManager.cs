@@ -138,22 +138,62 @@ public class MainMenuManager : MonoBehaviour
     {
         Debug.Log("MainMenuManager: New Game clicked - Starting fresh game...");
         
-        // Clear any existing save data for a fresh start
-        PlayerPrefs.DeleteKey("GameSaved");
+        // Delete the actual save file to ensure fresh start
+        SaveManager saveManager = FindObjectOfType<SaveManager>();
+        if (saveManager != null)
+        {
+            saveManager.DeleteSave(false); // Don't show message for new game
+            Debug.Log("MainMenuManager: Save file deleted for new game");
+        }
+        else
+        {
+            // Fallback: Delete save file directly
+            string saveFilePath = System.IO.Path.Combine(Application.persistentDataPath, "savegame.json");
+            if (System.IO.File.Exists(saveFilePath))
+            {
+                System.IO.File.Delete(saveFilePath);
+                Debug.Log("MainMenuManager: Save file deleted directly for new game");
+            }
+        }
         
-        // Load character selection scene
-        SceneManager.LoadScene(characterSelectionSceneName);
+        // Reset team for fresh start
+        if (TeamManager.Instance != null)
+        {
+            TeamManager.Instance.ResetTeam();
+            Debug.Log("MainMenuManager: Team reset for new game");
+        }
+        
+        // Reset game progress (defeated trolls, etc.)
+        GameProgress.ResetProgress();
+        Debug.Log("MainMenuManager: Game progress reset for new game");
+        
+        // Load map scene directly (team will be empty, populated before first battle)
+        SceneManager.LoadScene(mapSceneName);
     }
     
     public void OnLoadGameClicked()
     {
         Debug.Log("MainMenuManager: Load Game clicked - Checking for save file...");
         
-        // Check if save file exists
-        if (PlayerPrefs.HasKey("GameSaved"))
+        // Check if save file exists directly (more reliable than finding SaveManager)
+        string saveFilePath = System.IO.Path.Combine(Application.persistentDataPath, "savegame.json");
+        bool saveExists = System.IO.File.Exists(saveFilePath);
+        
+        Debug.Log($"MainMenuManager: Checking save file at: {saveFilePath}");
+        Debug.Log($"MainMenuManager: Save file exists: {saveExists}");
+        
+        if (saveExists)
         {
             Debug.Log("MainMenuManager: Save file found - Loading game...");
-            // Load the map scene directly
+            
+            // Reset team before loading (since teams don't persist)
+            if (TeamManager.Instance != null)
+            {
+                TeamManager.Instance.ResetTeam();
+                Debug.Log("MainMenuManager: Team reset before loading saved game");
+            }
+            
+            // Load the map scene directly - SaveManager will restore player state
             SceneManager.LoadScene(mapSceneName);
         }
         else

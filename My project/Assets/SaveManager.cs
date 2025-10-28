@@ -42,13 +42,15 @@ public class SaveManager : MonoBehaviour
         
         // Auto-load on start if save exists
         // Use Invoke to ensure load happens after all other Start() methods
+        Debug.Log($"SaveManager: Checking for save file at: {SaveFilePath}");
         if (SaveFileExists())
         {
+            Debug.Log("SaveManager: Save file found - will load in 0.1 seconds");
             Invoke(nameof(LoadGame), 0.1f);
         }
         else
         {
-            Debug.Log("No save file found - starting fresh game");
+            Debug.Log("SaveManager: No save file found - starting fresh game");
             ShowMessage("[NEW GAME] Starting new adventure!");
         }
     }
@@ -270,18 +272,32 @@ public class SaveManager : MonoBehaviour
     /// </summary>
     public void DeleteSave()
     {
+        DeleteSave(true); // Show message by default
+    }
+    
+    /// <summary>
+    /// Delete save file with option to show message
+    /// </summary>
+    public void DeleteSave(bool showMessage)
+    {
         try
         {
             if (SaveFileExists())
             {
                 File.Delete(SaveFilePath);
                 Debug.Log($"[DELETE] Save file deleted: {SaveFilePath}");
-                ShowMessage("[SAVE DELETED] Save file removed! Restart for fresh game.");
+                if (showMessage)
+                {
+                    ShowMessage("[SAVE DELETED] Save file removed! Restart for fresh game.");
+                }
             }
             else
             {
                 Debug.Log("[DELETE] No save file to delete");
-                ShowMessage("[NO SAVE] No save file to delete!");
+                if (showMessage)
+                {
+                    ShowMessage("[NO SAVE] No save file to delete!");
+                }
             }
         }
         catch (System.Exception e)

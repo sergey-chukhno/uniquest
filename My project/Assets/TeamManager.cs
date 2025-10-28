@@ -127,4 +127,12 @@ public class TeamManager : MonoBehaviour
         activeCharacterIndex = 0;
         Debug.Log("Team reset!");
     }
+    
+    public void ResetTeamForNewBattle()
+    {
+        // Clear team for fresh selection each battle
+        currentTeam.Clear();
+        activeCharacterIndex = 0;
+        Debug.Log("Team reset for new battle - ready for character selection!");
+    }
 }
