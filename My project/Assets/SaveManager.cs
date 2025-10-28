@@ -19,8 +19,28 @@ public class SaveManager : MonoBehaviour
     [Header("Auto-Save")]
     public bool autoSaveOnVictory = true;
     
+    public static SaveManager Instance { get; private set; }
+    
     private string SaveFilePath => Path.Combine(Application.persistentDataPath, saveFileName);
     private float playTime = 0f;
+    private static bool skipAutoLoad = false; // Flag to skip auto-load when returning from battle
+    
+    void Awake()
+    {
+        // Singleton pattern
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+            Debug.Log("SaveManager: Instance created and set to persist across scenes");
+        }
+        else
+        {
+            Debug.Log("SaveManager: Duplicate instance found, destroying");
+            Destroy(gameObject);
+            return;
+        }
+    }
     
     void Start()
     {
@@ -40,10 +60,17 @@ public class SaveManager : MonoBehaviour
             messageDisplay = FindObjectOfType<MessageDisplay>();
         }
         
-        // Auto-load on start if save exists
+        // Auto-load on start if save exists (unless we're returning from battle)
         // Use Invoke to ensure load happens after all other Start() methods
         Debug.Log($"SaveManager: Checking for save file at: {SaveFilePath}");
-        if (SaveFileExists())
+        Debug.Log($"SaveManager: skipAutoLoad flag = {skipAutoLoad}");
+        
+        if (skipAutoLoad)
+        {
+            Debug.Log("SaveManager: Skipping auto-load (returning from battle)");
+            skipAutoLoad = false; // Reset flag
+        }
+        else if (SaveFileExists())
         {
             Debug.Log("SaveManager: Save file found - will load in 0.1 seconds");
             Invoke(nameof(LoadGame), 0.1f);
@@ -225,11 +252,14 @@ public class SaveManager : MonoBehaviour
             }
             
             // Restore game progress (defeated trolls)
+            Debug.Log($"SaveManager.LoadGame: About to restore defeated trolls: [{string.Join(", ", data.defeatedTrolls)}]");
             GameProgress.ResetProgress(); // Clear first
             foreach (int trollIndex in data.defeatedTrolls)
             {
+                Debug.Log($"SaveManager.LoadGame: Restoring defeated troll {trollIndex}");
                 GameProgress.DefeatTroll(trollIndex);
             }
+            Debug.Log($"SaveManager.LoadGame: Finished restoring defeated trolls");
             
             // Restore collected objects
             if (playerController != null)
@@ -320,6 +350,15 @@ public class SaveManager : MonoBehaviour
     public string GetSaveFilePath()
     {
         return SaveFilePath;
+    }
+    
+    /// <summary>
+    /// Set flag to skip auto-load on next scene load (used when returning from battle)
+    /// </summary>
+    public static void SetSkipAutoLoad()
+    {
+        skipAutoLoad = true;
+        Debug.Log($"SaveManager.SetSkipAutoLoad: skipAutoLoad flag set to true (Instance exists: {Instance != null})");
     }
     
     /// <summary>

@@ -254,6 +254,13 @@ public class MainMenuManager : MonoBehaviour
         {
             backgroundMusicSource.volume = value;
         }
+        
+        // Update AudioManager if it exists
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.UpdateVolumes();
+        }
+        
         PlayerPrefs.SetFloat("MusicVolume", value);
         PlayerPrefs.Save();
         Debug.Log($"MainMenuManager: Music volume changed to {value}");
@@ -261,7 +268,12 @@ public class MainMenuManager : MonoBehaviour
     
     public void OnSFXVolumeChanged(float value)
     {
-        // This will be used by other audio sources in the game
+        // Update AudioManager if it exists
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.UpdateVolumes();
+        }
+        
         PlayerPrefs.SetFloat("SFXVolume", value);
         PlayerPrefs.Save();
         Debug.Log($"MainMenuManager: SFX volume changed to {value}");

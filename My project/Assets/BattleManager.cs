@@ -118,6 +118,8 @@ public class BattleManager : MonoBehaviour
     
     void LoadEnemyData()
     {
+        Debug.Log($"LoadEnemyData: BattleData.enemyToFightIndex = {BattleData.enemyToFightIndex}");
+        
         // Set enemy stats based on BattleData.enemyToFightIndex
         switch (BattleData.enemyToFightIndex)
         {
@@ -343,6 +345,12 @@ public class BattleManager : MonoBehaviour
                 playerCharacter.TakeDamage(damage);
                 ShowMessage($"[HIT] {playerCharacter.characterName} takes {damage} damage!");
                 
+                // Play hit sound
+                if (AudioManager.Instance != null)
+                {
+                    AudioManager.Instance.PlayHitSound();
+                }
+                
                 // Trigger camera shake on hit
                 if (cameraShake != null)
                 {
@@ -390,6 +398,13 @@ public class BattleManager : MonoBehaviour
         if (isPlayerTurn && !battleEnded && playerCharacter.isAlive)
         {
             Debug.Log("All conditions met, executing basic attack!");
+            
+            // Play attack sound
+            if (AudioManager.Instance != null)
+            {
+                AudioManager.Instance.PlayAttackSound();
+            }
+            
             ExecutePlayerAction("basic");
         }
         else
@@ -408,6 +423,12 @@ public class BattleManager : MonoBehaviour
                 ShowMessage($"[NO MANA] Not enough mana! Need 20 MP, have {playerCharacter.currentMana} MP");
                 Debug.Log($"Cannot use Super Attack - Need 20 MP, have {playerCharacter.currentMana} MP");
                 return;
+            }
+            
+            // Play super attack sound
+            if (AudioManager.Instance != null)
+            {
+                AudioManager.Instance.PlaySuperAttackSound();
             }
             
             ExecutePlayerAction("super");
@@ -444,6 +465,12 @@ public class BattleManager : MonoBehaviour
         {
             enemyCharacter.TakeDamage(damage);
             ShowMessage($"[HIT] {enemyCharacter.characterName} takes {damage} damage!");
+            
+            // Play hit sound
+            if (AudioManager.Instance != null)
+            {
+                AudioManager.Instance.PlayHitSound();
+            }
             
             // Trigger camera shake on hit
             if (cameraShake != null)
@@ -522,6 +549,19 @@ public class BattleManager : MonoBehaviour
     
     void EndBattle(bool playerWon)
     {
+        // Play victory or defeat sound
+        if (AudioManager.Instance != null)
+        {
+            if (playerWon)
+            {
+                AudioManager.Instance.PlayVictorySound();
+            }
+            else
+            {
+                AudioManager.Instance.PlayDefeatSound();
+            }
+        }
+        
         // Disable all buttons
         SetButtonsEnabled(false);
         
@@ -537,9 +577,24 @@ public class BattleManager : MonoBehaviour
         if (playerWon)
         {
             // Mark troll as defeated
+            Debug.Log($"EndBattle: Marking Troll {BattleData.enemyToFightIndex} as defeated (Zone: {BattleData.battleZoneName})");
             GameProgress.DefeatTroll(BattleData.enemyToFightIndex);
             ShowMessage($"[VICTORY] Battle in {BattleData.battleZoneName} won! Troll {BattleData.enemyToFightIndex} defeated!");
             Debug.Log($"[VICTORY] Battle in {BattleData.battleZoneName} won! Troll {BattleData.enemyToFightIndex} defeated!");
+            
+            // CRITICAL FIX: Save the game immediately to preserve troll defeat progress
+            if (SaveManager.Instance != null)
+            {
+                Debug.Log("BattleManager: Saving game immediately after troll defeat to preserve progress");
+                SaveManager.Instance.SaveGame();
+                
+                // Set flag to skip auto-load when returning to map (to preserve our fresh save)
+                SaveManager.SetSkipAutoLoad();
+            }
+            else
+            {
+                Debug.LogWarning("BattleManager: No SaveManager.Instance found - progress might not be preserved!");
+            }
             
             // Play victory particle effect
             if (victoryEffect != null)

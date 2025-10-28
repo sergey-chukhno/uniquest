@@ -382,9 +382,13 @@ public class PlayerController : MonoBehaviour
         string zoneName = battleZone.name;
         int trollIndex = GetTrollIndexFromZone(zoneName);
         
+        Debug.Log($"CheckBattleZone: zoneName='{zoneName}', trollIndex={trollIndex}");
+        Debug.Log($"CheckBattleZone: GameProgress.IsTrollDefeated({trollIndex}) = {GameProgress.IsTrollDefeated(trollIndex)}");
+        
         // Check if this troll has already been defeated
         if (GameProgress.IsTrollDefeated(trollIndex))
         {
+            Debug.Log($"Troll {trollIndex} already defeated - showing victory message");
             // Troll already defeated - show victory message (only once per zone entry)
             if (zoneName != lastInteractedZone)
             {
@@ -393,27 +397,34 @@ public class PlayerController : MonoBehaviour
             return;
         }
         
+        Debug.Log($"Troll {trollIndex} not defeated - starting battle");
         // Troll not defeated - start battle
         TriggerBattle(battleZone);
     }
     
     int GetTrollIndexFromZone(string zoneName)
     {
+        Debug.Log($"GetTrollIndexFromZone called with zoneName: '{zoneName}'");
+        
         // Map battle zones to troll indices
         if (zoneName.Contains("Tent") || zoneName.Contains("tent"))
         {
+            Debug.Log("Zone contains 'Tent' - returning Troll 1");
             return 1; // Troll 1
         }
         else if (zoneName.Contains("Round") || zoneName.Contains("round"))
         {
+            Debug.Log("Zone contains 'Round' - returning Troll 2");
             return 2; // Troll 2
         }
         else if (zoneName.Contains("Square") || zoneName.Contains("square"))
         {
+            Debug.Log("Zone contains 'Square' - returning Troll 3");
             return 3; // Troll 3
         }
         else
         {
+            Debug.Log($"Zone '{zoneName}' doesn't match any pattern - defaulting to Troll 1");
             return 1; // Default to Troll 1
         }
     }
@@ -453,6 +464,7 @@ public class PlayerController : MonoBehaviour
         }
         
         // Set up battle data
+        Debug.Log($"Setting up battle: enemyIndex={enemyIndex}, backgroundIndex={backgroundIndex}, zoneName='{zoneName}'");
         BattleData.SetupBattle(enemyIndex, backgroundIndex, zoneName);
         
         // Update player stats before battle
