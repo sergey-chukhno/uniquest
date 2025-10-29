@@ -2170,6 +2170,58 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 938705646}
   m_CullTransparentMesh: 1
+--- !u!1 &951302061
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 951302063}
+  - component: {fileID: 951302062}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &951302062
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 951302061}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8ad8d1e87bd54289b863012624d3435, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AudioManager
+  musicSource: {fileID: 0}
+  sfxSource: {fileID: 0}
+  mainSoundtrack: {fileID: 8300000, guid: 65658e7d8bcec4e13982478cb628f77b, type: 3}
+  attackSound: {fileID: 8300000, guid: bf6ef2903d97b47e3ac00c3caf1e1160, type: 3}
+  hitSound: {fileID: 0}
+  superAttackSound: {fileID: 8300000, guid: d2f07a53767df4f1da4cfbef181d3b62, type: 3}
+  victorySound: {fileID: 8300000, guid: b8ad6007119b94449bf948d8073e5215, type: 3}
+  defeatSound: {fileID: 8300000, guid: 6b15489c8680b4889a678fe59be0a18c, type: 3}
+--- !u!4 &951302063
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 951302061}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 29.51358, y: 408.3108, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &961739749
 GameObject:
   m_ObjectHideFlags: 0
@@ -3996,3 +4048,4 @@ SceneRoots:
   - {fileID: 2005792233}
   - {fileID: 1549167731}
   - {fileID: 52496910}
+  - {fileID: 951302063}

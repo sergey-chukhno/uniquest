@@ -49,6 +49,9 @@ public class BattleManager : MonoBehaviour
     public ParticleSystem superAttackEffect;
     public ParticleSystem victoryEffect;
     
+    [Header("Game Over")]
+    public string gameOverSceneName = "GameOverScene";
+    
     void Start()
     {
         // Auto-find TeamManager if not assigned
@@ -626,16 +629,31 @@ public class BattleManager : MonoBehaviour
     
     void ShowGameOver()
     {
-        // Reset game progress
-        GameProgress.ResetProgress();
+        Debug.Log("BattleManager: ShowGameOver called - Loading GameOverScene");
         
-        // Reset player stats to full
-        BattleData.ResetBattleData();
+        // Load the GameOverScene
+        SceneManager.LoadScene(gameOverSceneName);
         
-        // Return to map scene (player will start fresh)
-        SceneManager.LoadScene("MapScene");
+        // Force reinitialize GameOverManager after scene loads
+        StartCoroutine(ReinitializeGameOverAfterLoad());
+    }
+    
+    private System.Collections.IEnumerator ReinitializeGameOverAfterLoad()
+    {
+        // Wait for scene to fully load
+        yield return new WaitForSeconds(0.1f);
         
-        Debug.Log("🔄 Game Over! Progress reset. Starting fresh adventure!");
+        // Find GameOverManager in the new scene
+        GameOverManager gameOverManager = FindObjectOfType<GameOverManager>();
+        if (gameOverManager != null)
+        {
+            Debug.Log("BattleManager: Found GameOverManager, forcing reinitialize");
+            gameOverManager.ForceReinitialize();
+        }
+        else
+        {
+            Debug.LogError("BattleManager: GameOverManager not found in GameOverScene!");
+        }
     }
     
     void SetButtonsEnabled(bool enabled)
