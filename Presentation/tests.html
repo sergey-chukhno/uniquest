@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plan de Tests - Trolls et Paillettes</title>
+    <link rel="stylesheet" href="pages.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Audio Player -->
+    <audio id="backgroundMusic" loop>
+        <source src="soundtrack.mp3" type="audio/mpeg">
+        Votre navigateur ne supporte pas l'audio.
+    </audio>
+
+    <!-- Sound Toggle Button -->
+    <button id="soundToggle" class="sound-toggle" aria-label="Toggle sound">
+        <span class="sound-icon sound-on">🔊</span>
+        <span class="sound-icon sound-off" style="display: none;">🔇</span>
+    </button>
+
+    <div class="particles" id="particles"></div>
+    
+    <div class="content-container">
+        <header class="page-header">
+            <h1 class="page-title">🧪 Plan de Tests</h1>
+        </header>
+
+        <main class="content-box">
+            <div class="content-section">
+                <h2>Stratégie de Test</h2>
+                <p>
+                    Une approche complète combinant tests unitaires, tests d'intégration 
+                    et tests manuels pour garantir la qualité et la stabilité du jeu.
+                </p>
+            </div>
+
+            <div class="content-section">
+                <h2>Tests des Systèmes Principaux</h2>
+                <div class="design-grid">
+                    <div class="design-card">
+                        <div class="design-icon">⚔️</div>
+                        <h3>Système de Combat</h3>
+                        <ul class="compact-list">
+                            <li>✅ Validation des calculs de dégâts</li>
+                            <li>✅ Tests des animations d'attaque</li>
+                            <li>✅ Vérification de la variance aléatoire</li>
+                            <li>✅ Tests du système de mana</li>
+                            <li>✅ Conditions de victoire/défaite</li>
+                            <li>✅ Changement de personnage automatique</li>
+                        </ul>
+                    </div>
+
+                    <div class="design-card">
+                        <div class="design-icon">💾</div>
+                        <h3>Système de Sauvegarde</h3>
+                        <ul class="compact-list">
+                            <li>✅ Sérialisation JSON fonctionnelle</li>
+                            <li>✅ Sauvegarde des stats du joueur</li>
+                            <li>✅ Sauvegarde de l'inventaire</li>
+                            <li>✅ Sauvegarde des trolls vaincus</li>
+                            <li>✅ Restauration correcte au chargement</li>
+                            <li>✅ Gestion des fichiers corrompus</li>
+                        </ul>
+                    </div>
+
+                    <div class="design-card">
+                        <div class="design-icon">👥</div>
+                        <h3>Gestion d'Équipe</h3>
+                        <ul class="compact-list">
+                            <li>✅ Sélection de 3 personnages</li>
+                            <li>✅ Prévention des doublons</li>
+                            <li>✅ Vérification du changement actif</li>
+                            <li>✅ Détection d'équipe anéantie</li>
+                            <li>✅ Persistance entre scènes</li>
+                            <li>✅ Reset pour nouvelle partie</li>
+                        </ul>
+                    </div>
+
+                    <div class="design-card">
+                        <div class="design-icon">🗺️</div>
+                        <h3>Système de Carte</h3>
+                        <ul class="compact-list">
+                            <li>✅ Mouvement du joueur fluide</li>
+                            <li>✅ Détection de collisions</li>
+                            <li>✅ Déclenchement des zones de combat</li>
+                            <li>✅ Suivi de caméra smooth</li>
+                            <li>✅ Tracking des objets collectés</li>
+                            <li>✅ Transitions de scènes</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2>Tests d'Intégration</h2>
+                <ol class="gameplay-steps">
+                    <li><strong>Menu Principal</strong> - Nouveau jeu démarre correctement, chargement restaure les données</li>
+                    <li><strong>Sélection de Personnages</strong> - 3 personnages sélectionnables, stats affichées, équipe confirmée</li>
+                    <li><strong>Exploration de Carte</strong> - Mouvement fluide, collisions fonctionnelles, zones visibles</li>
+                    <li><strong>Déclenchement de Combat</strong> - Transition vers BattleScene, données transférées, sprites chargés</li>
+                    <li><strong>Combat Complet</strong> - Toutes actions fonctionnelles, IA ennemie, changement de personnage</li>
+                    <li><strong>Victoire</strong> - Troll enregistré vaincu, retour à carte, sauvegarde automatique</li>
+                    <li><strong>Défaite</strong> - Écran Game Over, statistiques correctes, options fonctionnelles</li>
+                    <li><strong>Sauvegarde/Chargement</strong> - Progression sauvée, état restauré fidèlement</li>
+                </ol>
+            </div>
+
+            <div class="content-section">
+                <h2>Scripts de Test Développés</h2>
+                <div class="insights-grid">
+                    <div class="insight-card">
+                        <h4>🔧 GameOverTest</h4>
+                        <ul>
+                            <li>Vérifie l'initialisation du GameOverManager</li>
+                            <li>Teste la détection des composants UI</li>
+                            <li>Valide la configuration des boutons</li>
+                        </ul>
+                    </div>
+
+                    <div class="insight-card">
+                        <h4>🔧 GameOverTester</h4>
+                        <ul>
+                            <li>Simule défaite avec données réalistes</li>
+                            <li>Simule victoire avec progression</li>
+                            <li>Reset de GameProgress</li>
+                        </ul>
+                    </div>
+
+                    <div class="insight-card">
+                        <h4>🔧 AudioManagerSetup</h4>
+                        <ul>
+                            <li>Vérifie l'initialisation audio</li>
+                            <li>Teste les AudioSources</li>
+                            <li>Valide les volumes</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2>Checklist de Test Manuelle</h2>
+                <div class="feature-list">
+                    <li>✅ Déplacement du joueur sur la carte</li>
+                    <li>✅ Déclenchement correct des zones de combat</li>
+                    <li>✅ Toutes les 4 actions de combat fonctionnent</li>
+                    <li>✅ Changement de personnage lors de défaite</li>
+                    <li>✅ Game Over quand équipe anéantie</li>
+                    <li>✅ Victoire donne de l'XP et sauvegarde</li>
+                    <li>✅ Potions restaurent HP/MP correctement</li>
+                    <li>✅ MP se déploie et se régénère</li>
+                    <li>✅ Sauvegarde persiste entre sessions</li>
+                    <li>✅ Audio joue sans conflits</li>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2>Résultats des Tests</h2>
+                <div class="stats-container">
+                    <div class="stat-box">
+                        <span class="stat-number">100%</span>
+                        <span class="stat-label">Tests Fonctionnels</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-number">25+</span>
+                        <span class="stat-label">Scénarios Testés</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-number">0</span>
+                        <span class="stat-label">Bugs Critiques</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-section highlight-box">
+                <h3>🏆 Assurance Qualité</h3>
+                <p>
+                    Grâce à notre stratégie de test rigoureuse et à des itérations fréquentes, 
+                    nous avons livré un jeu stable, sans bugs critiques, avec toutes les 
+                    fonctionnalités principales validées et opérationnelles.
+                </p>
+            </div>
+        </main>
+
+        <nav class="nav-container">
+            <a href="developpement.html" class="nav-button">
+                <span>←</span> Précédent
+            </a>
+            <a href="index.html" class="nav-button">
+                <span>🏠</span> Accueil
+            </a>
+            <a href="demo.html" class="nav-button">
+                Suivant <span>→</span>
+            </a>
+        </nav>
+    </div>
+
+    <script src="pages.js"></script>
+</body>
+</html>

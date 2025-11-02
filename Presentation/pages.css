@@ -456,6 +456,277 @@ body {
     margin-bottom: 0;
 }
 
+/* === SUBSECTION GRID === */
+.subsection-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+    margin: 40px 0;
+}
+
+.subsection-card {
+    background: rgba(30, 30, 35, 0.7);
+    border: 2px solid var(--border-color);
+    border-radius: 10px;
+    padding: 30px;
+    text-align: center;
+    text-decoration: none;
+    color: var(--text-light);
+    transition: var(--transition-smooth);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+}
+
+.subsection-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(212, 175, 55, 0.1),
+        transparent
+    );
+    transition: left 0.6s ease;
+}
+
+.subsection-card:hover::before {
+    left: 100%;
+}
+
+.subsection-card:hover {
+    border-color: var(--primary-gold);
+    background: rgba(40, 35, 30, 0.85);
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 12px 30px rgba(212, 175, 55, 0.4);
+}
+
+.subsection-icon {
+    font-size: 4rem;
+    margin-bottom: 20px;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.8));
+    transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.subsection-card:hover .subsection-icon {
+    transform: scale(1.2) rotate(5deg);
+}
+
+.subsection-card h3 {
+    font-family: 'Cinzel', serif;
+    font-size: 1.4rem;
+    color: var(--primary-gold);
+    margin-bottom: 15px;
+    letter-spacing: 1.5px;
+}
+
+.subsection-card p {
+    font-size: 1.05rem;
+    color: var(--text-dim);
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.subsection-arrow {
+    display: inline-block;
+    font-size: 1.5rem;
+    color: var(--primary-gold);
+    transition: transform 0.3s ease;
+}
+
+.subsection-card:hover .subsection-arrow {
+    transform: translateX(10px);
+}
+
+/* === CLASS DIAGRAM IMAGE === */
+.diagram-container {
+    margin: 30px 0;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid var(--border-color);
+    border-radius: 10px;
+    text-align: center;
+}
+
+.diagram-image {
+    max-width: 100%;
+    height: auto;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+    transition: var(--transition-smooth);
+    cursor: pointer;
+}
+
+.diagram-image:hover {
+    transform: scale(1.02);
+    box-shadow: 0 8px 30px rgba(212, 175, 55, 0.3);
+    border-color: var(--primary-gold);
+}
+
+.diagram-caption {
+    margin-top: 15px;
+    font-size: 1rem;
+    color: var(--text-dim);
+    font-style: italic;
+}
+
+/* === INSIGHTS GRID === */
+.insights-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    margin: 30px 0;
+}
+
+.insight-card {
+    background: rgba(30, 30, 35, 0.7);
+    border: 2px solid var(--border-color);
+    border-left: 4px solid var(--primary-gold);
+    border-radius: 8px;
+    padding: 25px;
+    transition: var(--transition-smooth);
+}
+
+.insight-card:hover {
+    border-color: var(--primary-gold);
+    background: rgba(40, 35, 30, 0.85);
+    transform: translateX(10px);
+    box-shadow: 0 8px 25px rgba(212, 175, 55, 0.3);
+}
+
+.insight-card h4 {
+    color: var(--secondary-gold);
+    margin-bottom: 15px;
+}
+
+.insight-card ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.insight-card li {
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 1.05rem;
+}
+
+.insight-card li:last-child {
+    border-bottom: none;
+}
+
+/* === STATS DISPLAY === */
+.stats-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin: 25px 0;
+}
+
+.stat-box {
+    background: rgba(212, 175, 55, 0.1);
+    border: 2px solid var(--primary-gold);
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    transition: var(--transition-smooth);
+}
+
+.stat-box:hover {
+    background: rgba(212, 175, 55, 0.2);
+    transform: scale(1.05);
+    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+}
+
+.stat-number {
+    font-family: 'Cinzel', serif;
+    font-size: 2.5rem;
+    color: var(--primary-gold);
+    font-weight: 700;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.stat-label {
+    font-size: 1rem;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* === ROADMAP TIMELINE === */
+.timeline {
+    margin: 30px 0;
+    padding: 0;
+    list-style: none;
+}
+
+.timeline-item {
+    position: relative;
+    padding-left: 40px;
+    padding-bottom: 30px;
+    border-left: 2px solid var(--border-color);
+}
+
+.timeline-item:last-child {
+    border-left: none;
+}
+
+.timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -6px;
+    top: 0;
+    width: 10px;
+    height: 10px;
+    background: var(--primary-gold);
+    border-radius: 50%;
+    box-shadow: 0 0 10px var(--primary-gold);
+}
+
+.timeline-day {
+    font-family: 'Cinzel', serif;
+    font-size: 1.3rem;
+    color: var(--primary-gold);
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.timeline-content {
+    background: rgba(30, 30, 35, 0.6);
+    border-radius: 8px;
+    padding: 20px;
+    border-left: 3px solid var(--primary-gold);
+    transition: var(--transition-smooth);
+}
+
+.timeline-content:hover {
+    background: rgba(40, 35, 30, 0.8);
+    transform: translateX(10px);
+    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
+}
+
+.timeline-content h4 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+}
+
+.timeline-content ul {
+    margin: 10px 0 0 20px;
+    list-style: disc;
+}
+
+.timeline-content li {
+    margin-bottom: 5px;
+    font-size: 1rem;
+}
+
 /* === TECH TAGS === */
 .tech-tags {
     display: flex;

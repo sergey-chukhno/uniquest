@@ -35,29 +35,26 @@ function initializeAudioSystem() {
     
     // Save music state before navigation
     window.addEventListener('beforeunload', () => {
-        if (musicPlaying) {
-            sessionStorage.setItem('musicPlaying', 'true');
-            sessionStorage.setItem('musicTime', music.currentTime.toString());
-        } else {
-            sessionStorage.setItem('musicPlaying', 'false');
-        }
+        sessionStorage.setItem('musicPlaying', 'true');
+        sessionStorage.setItem('musicTime', music.currentTime.toString());
     });
     
-    // Try to autoplay (some browsers block this)
+    // Always try to play on load
     const playPromise = music.play();
     
     if (playPromise !== undefined) {
         playPromise.then(() => {
-            // Autoplay started
+            // Autoplay started successfully
             audioInitialized = true;
             musicPlaying = true;
             soundToggle.classList.add('playing');
             soundOn.style.display = 'inline';
             soundOff.style.display = 'none';
+            sessionStorage.setItem('musicPlaying', 'true');
             console.log('🎵 Musique démarrée automatiquement');
         }).catch(() => {
-            // Autoplay blocked - user needs to click
-            console.log('🎵 Cliquez sur le bouton son pour démarrer la musique');
+            // Autoplay blocked - will start on first user interaction
+            console.log('🎵 Musique démarrera au premier clic');
         });
     }
     

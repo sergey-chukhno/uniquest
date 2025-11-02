@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Architecture - Trolls et Paillettes</title>
+    <link rel="stylesheet" href="pages.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Audio Player -->
+    <audio id="backgroundMusic" loop>
+        <source src="soundtrack.mp3" type="audio/mpeg">
+        Votre navigateur ne supporte pas l'audio.
+    </audio>
+
+    <!-- Sound Toggle Button -->
+    <button id="soundToggle" class="sound-toggle" aria-label="Toggle sound">
+        <span class="sound-icon sound-on">🔊</span>
+        <span class="sound-icon sound-off" style="display: none;">🔇</span>
+    </button>
+
+    <div class="particles" id="particles"></div>
+    
+    <div class="content-container">
+        <header class="page-header">
+            <h1 class="page-title">🏗️ Architecture du Système</h1>
+        </header>
+
+        <main class="content-box">
+            <div class="content-section">
+                <h2>Diagramme de Classes</h2>
+                <p>
+                    Architecture orientée objet avec séparation claire des responsabilités 
+                    et utilisation de patterns de conception professionnels.
+                </p>
+            </div>
+
+            <div class="diagram-container">
+                <img src="Images/Grouped_class_diagram.png" alt="Diagramme de Classes" class="diagram-image">
+                <p class="diagram-caption">Diagramme de classes groupé par système - 25 classes de production</p>
+            </div>
+
+            <div class="content-section">
+                <h2>Statistiques du Projet</h2>
+                <div class="stats-container">
+                    <div class="stat-box">
+                        <span class="stat-number">32</span>
+                        <span class="stat-label">Classes Totales</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-number">4,750+</span>
+                        <span class="stat-label">Lignes de Code</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-number">4</span>
+                        <span class="stat-label">Scènes Unity</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-number">3</span>
+                        <span class="stat-label">Singletons</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-number">26</span>
+                        <span class="stat-label">MonoBehaviours</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-number">5</span>
+                        <span class="stat-label">Design Patterns</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2>Points Clés de l'Architecture</h2>
+                <div class="insights-grid">
+                    <div class="insight-card">
+                        <h4>🎯 Singleton Pattern</h4>
+                        <ul>
+                            <li><strong>TeamManager</strong> - Gestion d'équipe persistante</li>
+                            <li><strong>SaveManager</strong> - Système de sauvegarde global</li>
+                            <li><strong>AudioManager</strong> - Audio persistant entre scènes</li>
+                            <li>✅ DontDestroyOnLoad pour persistance</li>
+                        </ul>
+                    </div>
+
+                    <div class="insight-card">
+                        <h4>📊 ScriptableObject</h4>
+                        <ul>
+                            <li><strong>CharacterData</strong> - Configuration data-driven</li>
+                            <li>✅ Éditable dans l'Inspector Unity</li>
+                            <li>✅ Facile à équilibrer et itérer</li>
+                            <li>✅ Actifs réutilisables</li>
+                        </ul>
+                    </div>
+
+                    <div class="insight-card">
+                        <h4>🔄 Classes Statiques</h4>
+                        <ul>
+                            <li><strong>BattleData</strong> - Transfert entre scènes</li>
+                            <li><strong>GameProgress</strong> - Suivi de progression globale</li>
+                            <li>✅ Pas de GameManager central</li>
+                            <li>✅ Responsabilités distribuées</li>
+                        </ul>
+                    </div>
+
+                    <div class="insight-card">
+                        <h4>👁️ Observer Pattern</h4>
+                        <ul>
+                            <li><strong>Inventory Events</strong> - OnItemAdded/Used</li>
+                            <li>✅ Couplage faible UI-Logique</li>
+                            <li>✅ Mises à jour automatiques</li>
+                            <li>✅ Extension facile</li>
+                        </ul>
+                    </div>
+
+                    <div class="insight-card">
+                        <h4>⚡ Coroutines</h4>
+                        <ul>
+                            <li>Animations fluides et chronométrées</li>
+                            <li>Actions asynchrones (tour ennemi)</li>
+                            <li>Effets visuels séquencés</li>
+                            <li>✅ Contrôle temporel précis</li>
+                        </ul>
+                    </div>
+
+                    <div class="insight-card">
+                        <h4>🧩 Component Pattern</h4>
+                        <ul>
+                            <li>18 MonoBehaviour pour modularité</li>
+                            <li>Effets visuels découplés</li>
+                            <li>✅ Système de composants Unity</li>
+                            <li>✅ Réutilisabilité maximale</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2>Organisation des Systèmes</h2>
+                <div class="design-grid">
+                    <div class="design-card">
+                        <div class="design-icon">⚔️</div>
+                        <h3>Système de Combat</h3>
+                        <p>
+                            <strong>BattleManager</strong> orchestre les combats au tour par tour.
+                            <strong>BattleCharacter</strong> représente joueurs et ennemis avec stats, 
+                            barres de vie/mana et animations.
+                        </p>
+                    </div>
+
+                    <div class="design-card">
+                        <div class="design-icon">🗺️</div>
+                        <h3>Système de Carte</h3>
+                        <p>
+                            <strong>PlayerController</strong> gère déplacements et interactions.
+                            <strong>BattleZone</strong> déclenche les combats.
+                            <strong>CameraFollow</strong> suit le joueur.
+                        </p>
+                    </div>
+
+                    <div class="design-card">
+                        <div class="design-icon">👥</div>
+                        <h3>Gestion d'Équipe</h3>
+                        <p>
+                            <strong>TeamManager</strong> gère la sélection de 3 personnages.
+                            <strong>TeamMember</strong> stocke l'état de chaque membre.
+                            <strong>CharacterData</strong> définit les statistiques de base.
+                        </p>
+                    </div>
+
+                    <div class="design-card">
+                        <div class="design-icon">💾</div>
+                        <h3>Système de Sauvegarde</h3>
+                        <p>
+                            <strong>SaveManager</strong> sérialise en JSON.
+                            <strong>SaveData</strong> structure les données.
+                            <strong>GameProgress</strong> suit les trolls vaincus.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2>Technologies Utilisées</h2>
+                <div class="tech-tags">
+                    <span class="tech-tag">Unity 2D</span>
+                    <span class="tech-tag">C# 9.0</span>
+                    <span class="tech-tag">JSON Serialization</span>
+                    <span class="tech-tag">TextMeshPro</span>
+                    <span class="tech-tag">Unity Audio</span>
+                    <span class="tech-tag">ScriptableObjects</span>
+                    <span class="tech-tag">Singleton Pattern</span>
+                    <span class="tech-tag">Observer Pattern</span>
+                    <span class="tech-tag">Coroutines</span>
+                    <span class="tech-tag">Physics 2D</span>
+                </div>
+            </div>
+
+            <div class="content-section highlight-box">
+                <h3>✨ Architecture Robuste</h3>
+                <p>
+                    Une conception professionnelle utilisant les meilleures pratiques Unity et C#, 
+                    avec séparation claire des responsabilités, patterns éprouvés et code maintenable. 
+                    Architecture évolutive permettant l'ajout facile de nouvelles fonctionnalités.
+                </p>
+            </div>
+        </main>
+
+        <nav class="nav-container">
+            <a href="conception.html" class="nav-button">
+                <span>←</span> Retour
+            </a>
+            <a href="index.html" class="nav-button">
+                <span>🏠</span> Accueil
+            </a>
+            <a href="developpement.html" class="nav-button">
+                Suivant <span>→</span>
+            </a>
+        </nav>
+    </div>
+
+    <script src="pages.js"></script>
+</body>
+</html>

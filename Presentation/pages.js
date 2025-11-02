@@ -35,50 +35,29 @@ function initializeAudioSystem() {
     // Set initial volume
     music.volume = 0.4;
     
-    // Check if music was playing on previous page (from sessionStorage)
-    const wasMusicPlaying = sessionStorage.getItem('musicPlaying') === 'true';
-    
-    if (wasMusicPlaying) {
-        // Continue playing from where we left off
-        const savedTime = parseFloat(sessionStorage.getItem('musicTime') || '0');
+    // Check if we have saved playback position
+    const savedTime = parseFloat(sessionStorage.getItem('musicTime') || '0');
+    if (savedTime > 0) {
         music.currentTime = savedTime;
-        music.play().then(() => {
-            audioInitialized = true;
-            musicPlaying = true;
-            soundToggle.classList.add('playing');
-            soundOn.style.display = 'inline';
-            soundOff.style.display = 'none';
-            console.log('🎵 Musique continuée');
-        }).catch(() => {
-            console.log('🎵 Erreur de lecture');
-        });
-    } else {
-        // Try to autoplay for first time visitors
-        const playPromise = music.play();
-        
-        if (playPromise !== undefined) {
-            playPromise.then(() => {
-                audioInitialized = true;
-                musicPlaying = true;
-                soundToggle.classList.add('playing');
-                soundOn.style.display = 'inline';
-                soundOff.style.display = 'none';
-                sessionStorage.setItem('musicPlaying', 'true');
-                console.log('🎵 Musique démarrée');
-            }).catch(() => {
-                console.log('🎵 Cliquez pour démarrer');
-            });
-        }
     }
+    
+    // Always try to play music on page load
+    music.play().then(() => {
+        audioInitialized = true;
+        musicPlaying = true;
+        soundToggle.classList.add('playing');
+        soundOn.style.display = 'inline';
+        soundOff.style.display = 'none';
+        sessionStorage.setItem('musicPlaying', 'true');
+        console.log('🎵 Musique continuée');
+    }).catch(() => {
+        console.log('🎵 Musique démarrera au premier clic');
+    });
     
     // Save music state before page unload
     window.addEventListener('beforeunload', () => {
-        if (musicPlaying) {
-            sessionStorage.setItem('musicPlaying', 'true');
-            sessionStorage.setItem('musicTime', music.currentTime.toString());
-        } else {
-            sessionStorage.setItem('musicPlaying', 'false');
-        }
+        sessionStorage.setItem('musicPlaying', 'true');
+        sessionStorage.setItem('musicTime', music.currentTime.toString());
     });
     
     // Toggle button click handler
