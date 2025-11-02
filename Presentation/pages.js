@@ -27,10 +27,18 @@ function initializeAudioSystem() {
     const music = document.getElementById('backgroundMusic');
     const soundToggle = document.getElementById('soundToggle');
     
-    if (!music || !soundToggle) return;
+    if (!music || !soundToggle) {
+        console.log('⚠️ Audio elements not found');
+        return;
+    }
     
     const soundOn = soundToggle.querySelector('.sound-on');
     const soundOff = soundToggle.querySelector('.sound-off');
+    
+    if (!soundOn || !soundOff) {
+        console.log('⚠️ Sound icons not found');
+        return;
+    }
     
     // Set initial volume
     music.volume = 0.4;
@@ -41,24 +49,44 @@ function initializeAudioSystem() {
         music.currentTime = savedTime;
     }
     
-    // Always try to play music on page load
-    music.play().then(() => {
-        audioInitialized = true;
-        musicPlaying = true;
-        soundToggle.classList.add('playing');
-        soundOn.style.display = 'inline';
-        soundOff.style.display = 'none';
-        sessionStorage.setItem('musicPlaying', 'true');
-        console.log('🎵 Musique continuée');
-    }).catch(() => {
-        console.log('🎵 Musique démarrera au premier clic');
-    });
+    // Set UI to "playing" state immediately
+    soundToggle.classList.add('playing');
+    soundOn.style.display = 'inline';
+    soundOff.style.display = 'none';
     
-    // Save music state before page unload
+    // Save music state before navigation
     window.addEventListener('beforeunload', () => {
         sessionStorage.setItem('musicPlaying', 'true');
         sessionStorage.setItem('musicTime', music.currentTime.toString());
     });
+    
+    // Function to start music
+    const startMusic = () => {
+        music.play().then(() => {
+            audioInitialized = true;
+            musicPlaying = true;
+            sessionStorage.setItem('musicPlaying', 'true');
+            console.log('🎵 Musique continuée');
+        }).catch(error => {
+            console.log('🎵 Erreur:', error.message);
+        });
+    };
+    
+    // Try to play immediately
+    startMusic();
+    
+    // Also start on any user interaction if autoplay failed
+    let interactionStarted = false;
+    const startOnInteraction = () => {
+        if (!musicPlaying && !interactionStarted) {
+            interactionStarted = true;
+            startMusic();
+        }
+    };
+    
+    document.addEventListener('click', startOnInteraction);
+    document.addEventListener('keydown', startOnInteraction);
+    document.addEventListener('touchstart', startOnInteraction);
     
     // Toggle button click handler
     soundToggle.addEventListener('click', () => {
