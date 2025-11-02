@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Démonstration - Trolls et Paillettes</title>
+    <link rel="stylesheet" href="pages.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Audio Player -->
+    <audio id="backgroundMusic" loop>
+        <source src="soundtrack.mp3" type="audio/mpeg">
+        Votre navigateur ne supporte pas l'audio.
+    </audio>
+
+    <!-- Sound Toggle Button -->
+    <button id="soundToggle" class="sound-toggle" aria-label="Toggle sound">
+        <span class="sound-icon sound-on">🔊</span>
+        <span class="sound-icon sound-off" style="display: none;">🔇</span>
+    </button>
+
+    <div class="particles" id="particles"></div>
+    
+    <div class="content-container">
+        <header class="page-header">
+            <h1 class="page-title">🎮 Démonstration du Jeu</h1>
+        </header>
+
+        <main class="content-box">
+            <div class="content-section">
+                <h2>Trolls et Paillettes - En Action</h2>
+                <p>
+                    Découvrez notre RPG Unity en action ! Un jeu complet combinant 
+                    combat stratégique, exploration et progression de personnages.
+                </p>
+            </div>
+
+            <div class="content-section">
+                <h2>Fonctionnalités Principales</h2>
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <span class="feature-icon">⚔️</span>
+                        <h4>Combat au Tour par Tour</h4>
+                        <p>Système de combat stratégique avec attaques normales et super attaques</p>
+                    </div>
+                    
+                    <div class="feature-item">
+                        <span class="feature-icon">🎭</span>
+                        <h4>Sélection de Personnages</h4>
+                        <p>Trois guerrières uniques avec statistiques et sprites variés</p>
+                    </div>
+                    
+                    <div class="feature-item">
+                        <span class="feature-icon">🗺️</span>
+                        <h4>Exploration de Carte</h4>
+                        <p>Monde ouvert avec trois zones de combat contre des trolls</p>
+                    </div>
+                    
+                    <div class="feature-item">
+                        <span class="feature-icon">💾</span>
+                        <h4>Système de Sauvegarde</h4>
+                        <p>Progression persistante avec sauvegarde automatique</p>
+                    </div>
+                    
+                    <div class="feature-item">
+                        <span class="feature-icon">🎵</span>
+                        <h4>Audio Immersif</h4>
+                        <p>Musique d'ambiance et effets sonores de combat</p>
+                    </div>
+                    
+                    <div class="feature-item">
+                        <span class="feature-icon">🏆</span>
+                        <h4>Écrans de Victoire/Défaite</h4>
+                        <p>Interface complète avec statistiques et options</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2>Gameplay</h2>
+                <ol class="gameplay-steps">
+                    <li>Sélectionnez votre équipe de trois guerrières</li>
+                    <li>Explorez la carte pour trouver les trolls</li>
+                    <li>Combattez stratégiquement en utilisant attaques et super attaques</li>
+                    <li>Changez de personnage si l'un est vaincu</li>
+                    <li>Progressez en défaisant les trois trolls</li>
+                    <li>Votre progression est sauvegardée automatiquement</li>
+                </ol>
+            </div>
+
+            <div class="content-section highlight-box demo-highlight">
+                <h3>🎯 Jouez Maintenant !</h3>
+                <p>
+                    Lancez Unity et ouvrez le projet pour jouer à la démo complète. 
+                    Commencez par le menu principal et plongez dans l'aventure de 
+                    <strong>Trolls et Paillettes</strong> !
+                </p>
+                <div class="demo-instructions">
+                    <p><strong>Instructions de Lancement :</strong></p>
+                    <ol>
+                        <li>Ouvrez le projet dans Unity</li>
+                        <li>Lancez la scène "MainMenuScene"</li>
+                        <li>Cliquez sur "Nouvelle Partie"</li>
+                        <li>Bon jeu ! 🎮</li>
+                    </ol>
+                </div>
+            </div>
+        </main>
+
+        <nav class="nav-container">
+            <a href="conception.html" class="nav-button">
+                <span>←</span> Précédent
+            </a>
+            <a href="index.html" class="nav-button">
+                <span>🏠</span> Accueil
+            </a>
+        </nav>
+    </div>
+
+    <script src="pages.js"></script>
+</body>
+</html>

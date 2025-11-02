@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conception du Projet - Trolls et Paillettes</title>
+    <link rel="stylesheet" href="pages.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Audio Player -->
+    <audio id="backgroundMusic" loop>
+        <source src="soundtrack.mp3" type="audio/mpeg">
+        Votre navigateur ne supporte pas l'audio.
+    </audio>
+
+    <!-- Sound Toggle Button -->
+    <button id="soundToggle" class="sound-toggle" aria-label="Toggle sound">
+        <span class="sound-icon sound-on">🔊</span>
+        <span class="sound-icon sound-off" style="display: none;">🔇</span>
+    </button>
+
+    <div class="particles" id="particles"></div>
+    
+    <div class="content-container">
+        <header class="page-header">
+            <h1 class="page-title">📐 Conception du Projet</h1>
+        </header>
+
+        <main class="content-box">
+            <div class="content-section">
+                <h2>Méthodologie de Développement</h2>
+                <p>
+                    Notre approche de développement repose sur une architecture solide 
+                    et une méthodologie rigoureuse garantissant qualité et maintenabilité.
+                </p>
+            </div>
+
+            <div class="design-grid">
+                <div class="design-card">
+                    <div class="design-icon">📊</div>
+                    <h3>Diagramme de Classes</h3>
+                    <p>
+                        Architecture orientée objet avec séparation claire des responsabilités :
+                    </p>
+                    <ul class="compact-list">
+                        <li><strong>Managers</strong> : BattleManager, SaveManager, AudioManager, TeamManager</li>
+                        <li><strong>Données</strong> : CharacterData, GameProgress, SaveData, BattleData</li>
+                        <li><strong>UI</strong> : CharacterSelectionUI, GameOverManager, MainMenuManager</li>
+                        <li><strong>Gameplay</strong> : PlayerController, Character, AttackAnimation</li>
+                    </ul>
+                </div>
+
+                <div class="design-card">
+                    <div class="design-icon">🧪</div>
+                    <h3>Plan de Tests</h3>
+                    <p>
+                        Tests complets pour garantir la qualité du jeu :
+                    </p>
+                    <ul class="compact-list">
+                        <li><strong>Système de combat</strong> : Validation des calculs de dégâts et animations</li>
+                        <li><strong>Persistance</strong> : Tests de sauvegarde/chargement de progression</li>
+                        <li><strong>Transitions</strong> : Vérification des changements de scènes</li>
+                        <li><strong>Équilibrage</strong> : Tests de difficulté et progression</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2>Technologies Utilisées</h2>
+                <div class="tech-tags">
+                    <span class="tech-tag">Unity 2D</span>
+                    <span class="tech-tag">C#</span>
+                    <span class="tech-tag">JSON Serialization</span>
+                    <span class="tech-tag">TextMeshPro</span>
+                    <span class="tech-tag">Unity Audio</span>
+                    <span class="tech-tag">ScriptableObjects</span>
+                </div>
+            </div>
+
+            <div class="content-section highlight-box">
+                <h3>⚙️ Architecture Robuste</h3>
+                <p>
+                    Conception évolutive permettant l'ajout facile de nouvelles fonctionnalités, 
+                    personnages et mécaniques de jeu tout en maintenant la stabilité du système.
+                </p>
+            </div>
+        </main>
+
+        <nav class="nav-container">
+            <a href="equipe.html" class="nav-button">
+                <span>←</span> Précédent
+            </a>
+            <a href="index.html" class="nav-button">
+                <span>🏠</span> Accueil
+            </a>
+            <a href="demo.html" class="nav-button">
+                Suivant <span>→</span>
+            </a>
+        </nav>
+    </div>
+
+    <script src="pages.js"></script>
+</body>
+</html>

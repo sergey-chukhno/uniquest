@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notre Équipe - Trolls et Paillettes</title>
+    <link rel="stylesheet" href="pages.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Audio Player -->
+    <audio id="backgroundMusic" loop>
+        <source src="soundtrack.mp3" type="audio/mpeg">
+        Votre navigateur ne supporte pas l'audio.
+    </audio>
+
+    <!-- Sound Toggle Button -->
+    <button id="soundToggle" class="sound-toggle" aria-label="Toggle sound">
+        <span class="sound-icon sound-on">🔊</span>
+        <span class="sound-icon sound-off" style="display: none;">🔇</span>
+    </button>
+
+    <div class="particles" id="particles"></div>
+    
+    <div class="content-container">
+        <header class="page-header">
+            <h1 class="page-title">👥 Notre Équipe</h1>
+        </header>
+
+        <main class="content-box">
+            <div class="content-section">
+                <h2>L'Équipe de Développement</h2>
+                <p>
+                    Ce projet est le fruit de la collaboration de trois développeurs passionnés 
+                    par le développement de jeux vidéo et l'innovation technologique.
+                </p>
+            </div>
+
+            <div class="team-grid">
+                <div class="team-card">
+                    <div class="team-icon">⚜️</div>
+                    <h3>Élodie</h3>
+                    <p class="team-role">Développeuse & Game Designer</p>
+                    <p class="team-description">
+                        Spécialisée dans la conception de gameplay et l'expérience utilisateur. 
+                        Responsable du design des mécaniques de combat et de la progression.
+                    </p>
+                </div>
+
+                <div class="team-card">
+                    <div class="team-icon">⚜️</div>
+                    <h3>Louis</h3>
+                    <p class="team-role">Développeur & Architecte Système</p>
+                    <p class="team-description">
+                        Expert en architecture logicielle et systèmes de données. 
+                        Gère la structure du projet et les systèmes de sauvegarde.
+                    </p>
+                </div>
+
+                <div class="team-card">
+                    <div class="team-icon">⚜️</div>
+                    <h3>Sergey</h3>
+                    <p class="team-role">Développeur & Lead Programmer</p>
+                    <p class="team-description">
+                        Développeur principal en charge de l'implémentation des systèmes de combat, 
+                        UI/UX et intégration audio.
+                    </p>
+                </div>
+            </div>
+
+            <div class="content-section highlight-box">
+                <h3>🏆 Excellence Collaborative</h3>
+                <p>
+                    Une équipe dédiée à l'excellence technique et créative, 
+                    combinant expertise en programmation C#, maîtrise d'Unity 
+                    et passion pour le game design.
+                </p>
+            </div>
+        </main>
+
+        <nav class="nav-container">
+            <a href="objectif.html" class="nav-button">
+                <span>←</span> Précédent
+            </a>
+            <a href="index.html" class="nav-button">
+                <span>🏠</span> Accueil
+            </a>
+            <a href="conception.html" class="nav-button">
+                Suivant <span>→</span>
+            </a>
+        </nav>
+    </div>
+
+    <script src="pages.js"></script>
+</body>
+</html>
