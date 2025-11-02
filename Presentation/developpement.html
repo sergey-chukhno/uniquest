@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stratégie de Développement - Trolls et Paillettes</title>
+    <link rel="stylesheet" href="pages.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Audio Player -->
+    <audio id="backgroundMusic" loop autoplay>
+        <source src="soundtrack.mp3" type="audio/mpeg">
+        Votre navigateur ne supporte pas l'audio.
+    </audio>
+
+    <!-- Sound Toggle Button -->
+    <button id="soundToggle" class="sound-toggle" aria-label="Toggle sound">
+        <span class="sound-icon sound-on">🔊</span>
+        <span class="sound-icon sound-off" style="display: none;">🔇</span>
+    </button>
+
+    <div class="particles" id="particles"></div>
+    
+    <div class="content-container">
+        <header class="page-header">
+            <h1 class="page-title">🚀 Stratégie de Développement</h1>
+        </header>
+
+        <main class="content-box">
+            <div class="content-section">
+                <h2>Approche Unity-First (2 Semaines)</h2>
+                <p>
+                    Notre stratégie de développement privilégie une approche <strong>Unity-first</strong> 
+                    pour obtenir des résultats visuels rapides et permettre des tests d'intégration précoces.
+                </p>
+            </div>
+
+            <div class="content-section">
+                <h2>Principes Directeurs</h2>
+                <div class="insights-grid">
+                    <div class="insight-card">
+                        <h4>📅 Itérations Quotidiennes</h4>
+                        <ul>
+                            <li>Progrès visuel chaque jour</li>
+                            <li>Tests fréquents pendant le développement</li>
+                            <li>Feedback rapide de l'équipe</li>
+                        </ul>
+                    </div>
+
+                    <div class="insight-card">
+                        <h4>🎨 Intégration Précoce</h4>
+                        <ul>
+                            <li>Assets intégrés dès le Jour 1</li>
+                            <li>Design guidé par les assets disponibles</li>
+                            <li>Détection précoce des problèmes</li>
+                        </ul>
+                    </div>
+
+                    <div class="insight-card">
+                        <h4>🎯 Focus MVP</h4>
+                        <ul>
+                            <li>Gameplay de base en priorité</li>
+                            <li>Polish en second temps</li>
+                            <li>Fonctionnalités essentielles uniquement</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2>Roadmap de Développement</h2>
+                
+                <h3 style="color: var(--primary-gold); margin-top: 30px; margin-bottom: 20px;">
+                    📅 Semaine 1 : Fondations Unity + Progrès Visuel
+                </h3>
+                
+                <ul class="timeline">
+                    <li class="timeline-item">
+                        <div class="timeline-day">Jour 1 : Mouvement du Joueur</div>
+                        <div class="timeline-content">
+                            <h4>Objectif : Joueur se déplace avec les flèches</h4>
+                            <ul>
+                                <li>Configuration Unity et import des assets</li>
+                                <li>Création du PlayerController</li>
+                                <li>Ajout du sprite du joueur</li>
+                                <li>Implémentation du CameraFollow</li>
+                                <li>Animations idle et run</li>
+                            </ul>
+                        </div>
+                    </li>
+
+                    <li class="timeline-item">
+                        <div class="timeline-day">Jour 2 : Carte avec Zones de Combat</div>
+                        <div class="timeline-content">
+                            <h4>Objectif : Créer une carte détaillée avec tilemaps</h4>
+                            <ul>
+                                <li>Système de tilemap (256×256 tiles)</li>
+                                <li>Objets décoratifs (arbres, tours, pierres)</li>
+                                <li>Collisions pour objets bloquants</li>
+                                <li>3 zones de combat placées stratégiquement</li>
+                            </ul>
+                        </div>
+                    </li>
+
+                    <li class="timeline-item">
+                        <div class="timeline-day">Jour 3 : Scène de Combat + UI</div>
+                        <div class="timeline-content">
+                            <h4>Objectif : Combat de base fonctionnel</h4>
+                            <ul>
+                                <li>Création de BattleScene avec sprites réels</li>
+                                <li>Barres de HP/MP pour joueur et ennemi</li>
+                                <li>4 boutons d'action (Attack, Super, Item, Switch)</li>
+                                <li>BattleManager avec logique de base</li>
+                            </ul>
+                        </div>
+                    </li>
+
+                    <li class="timeline-item">
+                        <div class="timeline-day">Jour 4 : Transitions de Scènes</div>
+                        <div class="timeline-content">
+                            <h4>Objectif : Connexion Carte ↔ Combat</h4>
+                            <ul>
+                                <li>Managers singleton (Team, Save, Audio)</li>
+                                <li>BattleData pour transfert de données</li>
+                                <li>Transitions fluides entre scènes</li>
+                                <li>Build Settings configurés</li>
+                            </ul>
+                        </div>
+                    </li>
+
+                    <li class="timeline-item">
+                        <div class="timeline-day">Jour 5 : Système d'Équipe</div>
+                        <div class="timeline-content">
+                            <h4>Objectif : 3 personnages avec stats différentes</h4>
+                            <ul>
+                                <li>CharacterData ScriptableObjects</li>
+                                <li>TeamManager avec gestion de 3 membres</li>
+                                <li>Changement de personnage fonctionnel</li>
+                                <li>Sprites différents pour chaque type</li>
+                            </ul>
+                        </div>
+                    </li>
+
+                    <li class="timeline-item">
+                        <div class="timeline-day">Jour 6 : Système d'Inventaire</div>
+                        <div class="timeline-content">
+                            <h4>Objectif : Items utilisables en combat</h4>
+                            <ul>
+                                <li>Classes Item et Inventory</li>
+                                <li>2 types de potions (HP et MP)</li>
+                                <li>Affichage des compteurs d'items</li>
+                                <li>Sprites de potions intégrés</li>
+                            </ul>
+                        </div>
+                    </li>
+
+                    <li class="timeline-item">
+                        <div class="timeline-day">Jour 7 : Boucle de Jeu Complète</div>
+                        <div class="timeline-content">
+                            <h4>Objectif : Jeu jouable du début à la fin</h4>
+                            <ul>
+                                <li>Écrans de victoire et défaite</li>
+                                <li>GameProgress pour trolls vaincus</li>
+                                <li>Tests de la boucle complète</li>
+                                <li>Corrections de bugs critiques</li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+
+                <h3 style="color: var(--glow-color); margin-top: 40px; margin-bottom: 20px;">
+                    🎮 Semaine 2 : Logique Avancée + Polish
+                </h3>
+
+                <ul class="timeline">
+                    <li class="timeline-item">
+                        <div class="timeline-day">Jours 8-9 : Combat Avancé</div>
+                        <div class="timeline-content">
+                            <h4>Objectif : Mécaniques de combat raffinées</h4>
+                            <ul>
+                                <li>Calculs de dégâts avec variance</li>
+                                <li>Système de défense et résistance</li>
+                                <li>IA ennemie (choix aléatoire d'attaques)</li>
+                                <li>Animations de combat fluides</li>
+                            </ul>
+                        </div>
+                    </li>
+
+                    <li class="timeline-item">
+                        <div class="timeline-day">Jour 10 : Polish Visuel</div>
+                        <div class="timeline-content">
+                            <h4>Objectif : Intégration complète des sprites</h4>
+                            <ul>
+                                <li>Tous les sprites de personnages</li>
+                                <li>Effets visuels (DamageFlash, AttackAnimation)</li>
+                                <li>ParticleSystem pour impacts</li>
+                                <li>CameraShake pour feedback</li>
+                            </ul>
+                        </div>
+                    </li>
+
+                    <li class="timeline-item">
+                        <div class="timeline-day">Jour 11 : Système Audio</div>
+                        <div class="timeline-content">
+                            <h4>Objectif : Audio immersif</h4>
+                            <ul>
+                                <li>AudioManager singleton</li>
+                                <li>Musique médiévale en boucle</li>
+                                <li>Effets sonores de combat</li>
+                                <li>Contrôles de volume intégrés</li>
+                            </ul>
+                        </div>
+                    </li>
+
+                    <li class="timeline-item">
+                        <div class="timeline-day">Jours 12-13 : Sauvegarde + Équilibrage</div>
+                        <div class="timeline-content">
+                            <h4>Objectif : Système complet et équilibré</h4>
+                            <ul>
+                                <li>SaveManager avec JSON</li>
+                                <li>Sauvegarde/Chargement fonctionnels</li>
+                                <li>Équilibrage des statistiques</li>
+                                <li>Tests de difficulté</li>
+                            </ul>
+                        </div>
+                    </li>
+
+                    <li class="timeline-item">
+                        <div class="timeline-day">Jour 14 : Tests Finaux + Présentation</div>
+                        <div class="timeline-content">
+                            <h4>Objectif : Projet prêt pour livraison</h4>
+                            <ul>
+                                <li>Tests complets du jeu</li>
+                                <li>Corrections de bugs</li>
+                                <li>Préparation de la démo</li>
+                                <li>Documentation et présentation</li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="content-section highlight-box">
+                <h3>🎯 Facteurs de Réussite</h3>
+                <div style="margin-top: 20px;">
+                    <p><strong>Semaine 1 :</strong> Faire fonctionner le jeu visuellement</p>
+                    <p><strong>Semaine 2 :</strong> Polish et équilibrage</p>
+                    <p style="margin-top: 15px; font-style: italic;">
+                        Un jeu fonctionnel avec graphismes basiques vaut mieux qu'un 
+                        beau jeu qui ne fonctionne pas !
+                    </p>
+                </div>
+            </div>
+        </main>
+
+        <nav class="nav-container">
+            <a href="architecture.html" class="nav-button">
+                <span>←</span> Précédent
+            </a>
+            <a href="index.html" class="nav-button">
+                <span>🏠</span> Accueil
+            </a>
+            <a href="tests.html" class="nav-button">
+                Suivant <span>→</span>
+            </a>
+        </nav>
+    </div>
+
+    <script src="pages.js"></script>
+</body>
+</html>

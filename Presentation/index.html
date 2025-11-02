@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trolls et Paillettes - RPG Unity</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Audio Player -->
+    <audio id="backgroundMusic" loop autoplay>
+        <source src="soundtrack.mp3" type="audio/mpeg">
+        Votre navigateur ne supporte pas l'audio.
+    </audio>
+
+    <!-- Sound Toggle Button -->
+    <button id="soundToggle" class="sound-toggle" aria-label="Toggle sound">
+        <span class="sound-icon sound-on">🔊</span>
+        <span class="sound-icon sound-off" style="display: none;">🔇</span>
+    </button>
+
+    <div class="particles" id="particles"></div>
+    
+    <div class="container">
+        <header class="header">
+            <h1 class="title">
+                <span class="title-main">Trolls et Paillettes</span>
+            </h1>
+            <p class="subtitle">RPG Unity Game</p>
+        </header>
+
+        <main class="menu-box">
+            <nav class="menu-grid">
+                <a href="objectif.html" class="menu-button" data-tooltip="Créer un RPG immersif avec Unity et C#">
+                    <span class="button-icon">⚔️</span>
+                    <span class="button-text">Objectif du Projet</span>
+                    <span class="button-corner tl"></span>
+                    <span class="button-corner tr"></span>
+                    <span class="button-corner bl"></span>
+                    <span class="button-corner br"></span>
+                </a>
+
+                <a href="equipe.html" class="menu-button" data-tooltip="Élodie, Louis & Sergey - Développeurs passionnés">
+                    <span class="button-icon">👥</span>
+                    <span class="button-text">Notre Équipe</span>
+                    <span class="button-corner tl"></span>
+                    <span class="button-corner tr"></span>
+                    <span class="button-corner bl"></span>
+                    <span class="button-corner br"></span>
+                </a>
+
+                <a href="conception.html" class="menu-button" data-tooltip="Architecture et méthodologie de développement">
+                    <span class="button-icon">📐</span>
+                    <span class="button-text">Conception et Développement</span>
+                    <span class="button-corner tl"></span>
+                    <span class="button-corner tr"></span>
+                    <span class="button-corner bl"></span>
+                    <span class="button-corner br"></span>
+                </a>
+
+                <a href="demo.html" class="menu-button demo-button" data-tooltip="Découvrez le jeu en action">
+                    <span class="button-icon">🎮</span>
+                    <span class="button-text">Démonstration</span>
+                    <span class="button-corner tl"></span>
+                    <span class="button-corner tr"></span>
+                    <span class="button-corner bl"></span>
+                    <span class="button-corner br"></span>
+                </a>
+            </nav>
+        </main>
+    </div>
+
+    <script src="index.js"></script>
+</body>
+</html>
+

@@ -17,8 +17,9 @@ public static class GameProgress
     /// </summary>
     public static void DefeatTroll(int trollIndex)
     {
+        Debug.Log($"GameProgress.DefeatTroll({trollIndex}) called - BEFORE: [{string.Join(", ", defeatedTrolls)}]");
         defeatedTrolls.Add(trollIndex);
-        Debug.Log($"Troll {trollIndex} has been defeated! Defeated trolls: {string.Join(", ", defeatedTrolls)}");
+        Debug.Log($"GameProgress.DefeatTroll({trollIndex}) called - AFTER: [{string.Join(", ", defeatedTrolls)}]");
         
         // Check if all trolls are defeated
         if (defeatedTrolls.Count >= 3)
@@ -33,7 +34,9 @@ public static class GameProgress
     /// </summary>
     public static bool IsTrollDefeated(int trollIndex)
     {
-        return defeatedTrolls.Contains(trollIndex);
+        bool isDefeated = defeatedTrolls.Contains(trollIndex);
+        Debug.Log($"GameProgress.IsTrollDefeated({trollIndex}): {isDefeated} (Defeated trolls: [{string.Join(", ", defeatedTrolls)}])");
+        return isDefeated;
     }
     
     /// <summary>

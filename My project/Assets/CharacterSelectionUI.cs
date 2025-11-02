@@ -49,6 +49,13 @@ public class CharacterSelectionUI : MonoBehaviour
     void Start()
     {
         Debug.Log("CharacterSelectionUI Start() called!");
+        
+        // Reset team for fresh selection each battle
+        if (TeamManager.Instance != null)
+        {
+            TeamManager.Instance.ResetTeamForNewBattle();
+        }
+        
         InitializeUI();
         CreateCharacterButtons();
         RefreshTeamDisplay();
