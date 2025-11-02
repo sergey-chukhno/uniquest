@@ -1,0 +1,39 @@
+Unity Editor version:    6000.2.6f1 (cc51a95c0300)
+Branch:                  6000.2/staging
+Build type:              Release
+Batch mode:              YES
+macOS version:           Version 15.6 (Build 24G84)
+Darwin version:          24.6.0
+Architecture:            arm64
+Running under Rosetta:   NO
+Available memory:        16384 MB
+Date:                    2025-11-02T13:05:34Z
+[Licensing::Module] Trying to connect to existing licensing client channel...
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-sergeychukhno" at "2025-11-02T13:05:34.301416Z"
+Launching external process: /Applications/Unity/Hub/Editor/6000.2.6f1/Unity.app/Contents/Resources/PackageManager/Server/UnityPackageManager
+
+COMMAND LINE ARGUMENTS:
+/Applications/Unity/Hub/Editor/6000.2.6f1/Unity.app/Contents/MacOS/Unity
+-batchmode
+-projectPath
+/Users/sergeychukhno/Desktop/CSharp/2D_unity_rpg/My project
+-runTests
+-testPlatform
+EditMode
+-testResults
+/Users/sergeychukhno/Desktop/CSharp/2D_unity_rpg/TestResults.xml
+-logFile
+/Users/sergeychukhno/Desktop/CSharp/2D_unity_rpg/TestLog.txt
+Successfully changed project path to: /Users/sergeychukhno/Desktop/CSharp/2D_unity_rpg/My project
+/Users/sergeychukhno/Desktop/CSharp/2D_unity_rpg/My project
+It looks like another Unity instance is running with this project open.
+
+Multiple Unity instances cannot open the same project.
+
+Project: /Users/sergeychukhno/Desktop/CSharp/2D_unity_rpg/My project
+Fatal Error! It looks like another Unity instance is running with this project open.
+
+Multiple Unity instances cannot open the same project.
+
+Project: /Users/sergeychukhno/Desktop/CSharp/2D_unity_rpg/My project
+[Package Manager] Server process was shutdown
